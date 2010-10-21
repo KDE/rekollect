@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Rekollect
+Exec=rekollect %i -caption "%c"
+Comment=Create and manage notes and lists
+Icon=rekollect
+Type=Application
+X-DocPath=rekollect/index.html
+X-DBUS-StartupType=Unique
+GenericName=Note Manager
+Terminal=false
+Categories=Qt;KDE;Utility;Office;

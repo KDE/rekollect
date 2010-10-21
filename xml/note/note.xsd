@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:simpleType name="textsizetype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="small"/>
+            <xs:enumeration value="normal"/>
+            <xs:enumeration value="large"/>
+            <xs:enumeration value="huge"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="texttype">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute name="size" type="textsizetype"/>
+                <xs:attribute name="bold" type="xs:boolean"/>
+                <xs:attribute name="italic" type="xs:boolean"/>
+                <xs:attribute name="strikethrough" type="xs:boolean"/>
+                <xs:attribute name="highlight" type="xs:boolean"/>
+                <xs:attribute name="uri" type="xs:anyURI"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+
+    <xs:group name="textgroup">
+        <xs:choice>
+            <xs:element name="text" type="texttype" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:choice>
+    </xs:group>
+
+    <xs:complexType name="paragraphtype">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:group ref="textgroup"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="itemtype">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:group ref="textgroup"/>
+        </xs:choice>
+        <xs:attribute name="indent" type="xs:positiveInteger" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="listtype">
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="item" type="itemtype"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="bodytype">
+       <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="paragraph" type="paragraphtype"/>
+            <xs:element name="list" type="listtype"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="tagtype">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="tag" type="xs:string"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="metadatatype">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="tags" type="tagtype"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:element name="note">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="metadata" type="metadatatype"/>
+                <xs:element name="body" type="bodytype"/>
+            </xs:sequence>
+            <xs:attribute name="version" type="xs:positiveInteger" use="required"/>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

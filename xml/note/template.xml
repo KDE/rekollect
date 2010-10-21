@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<note version="1">
+    <metadata/>
+    <body>
+        <paragraph><text bold="true" size="huge">New Note %number</text></paragraph>
+        <paragraph><text/></paragraph>
+        <paragraph>
+            <text>Enter your note here.</text>
+        </paragraph>
+    </body>
+</note>

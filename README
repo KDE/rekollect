@@ -1,0 +1,37 @@
+Rekollect - A note taking and note management application
+
+-- CHANGES ------------------------------------------------
+v0.3.3
+* Improved spacing between lines of space for better readability
+* Double clicking a multi-word link will now select the whole link instead of just the current word
+* Ability to export notes in HTML
+* Ability to configure whether the note browser is displayed on start
+* Ability to print notes
+* Added global shortcuts to show/hide the note browser and to create new notes
+* Windows now remember their position on a note by note basis
+* Improved handling when indenting/unindenting multiple list items at the same time
+
+v0.3.2
+* Windows now remember their sizes on a note by note basis
+* Various editor improvements
+  * Backspace now behaves properly when text is selected at the beginning of a list item
+  * Enter key now behaves the same as Return key
+  * A carriage return at the end of a line of text will reset all formatting except lists
+  * Setting the text size now effects the entire line of text if no selection is made
+* Refactored application to improve clarity of code
+* Miscellaneous other bug fixes
+
+v0.3.1
+* Native IO classes now work as a shared library
+* Native IO classes can now work with any QTextDocument derived class
+
+v0.3
+* Editor is faster and easier to use
+* Uses its own custom file format
+
+v0.2
+* Supports linking between notes and to external documents via standard urls.
+
+-- AUTHORS ------------------------------------------------
+
+Jason Jackson  <jacksonje at gmail dot com>

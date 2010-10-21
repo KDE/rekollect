@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<note version="1">
+    <metadata>
+        <tags>
+            <tag>General</tag>
+            <tag>CASSIDI</tag>
+        </tags>
+    </metadata>
+    <body>
+        <paragraph><text bold="true" size="large">A simple note</text></paragraph>
+        <paragraph>
+            <text>This is a simple note. The next word is </text>
+            <text highlight="true">highlighted</text>
+        </paragraph>
+        <list>
+            <item><text bold="true">Item number one</text><text> and non bold</text></item>
+            <item><text>Item number two</text></item>
+            <list>
+                <item><text>Sub item number one</text></item>
+                <item><text>Sub item number two</text></item>
+            </list>
+            <item><text>Item number three</text></item>
+        </list>
+        <paragraph>
+            <text bold="true">Bold </text>
+            <text italic="true">Italic </text>
+            <text bold="true" italic="true">Bold/Italic </text>
+            <text strikethrough="true">Strikethrough </text>
+            <text highlight="true">Highlight </text>
+            <text> </text>
+            <text size="small">Small </text>
+            <text size="normal">Normal </text>
+            <text size="large">Large </text>
+            <text size="huge">Huge </text>
+            <text uri="http://www.google.com/" size="huge">Go to Google</text>
+        </paragraph>
+    </body>
+</note>
