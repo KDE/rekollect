@@ -17,7 +17,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_StartHidden">
      <property name="text">
-      <string>HIde Note Browser on start</string>
+      <string>Hide Note Browser on start</string>
      </property>
     </widget>
    </item>
