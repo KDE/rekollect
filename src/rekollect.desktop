@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Rekollect
 Name[de]=Rekollect
+Name[es]=Rekollect
 Name[nds]=Rekollect
 Name[pt]=Rekollect
 Name[sv]=Rekollect
@@ -8,6 +9,7 @@ Name[uk]=Rekollect
 Name[x-test]=xxRekollectxx
 Exec=rekollect %i -caption "%c"
 Comment=Create and manage notes and lists
+Comment[es]=Cree y gestione notas y listas
 Comment[nds]=Notizen un Listen opstellen un plegen
 Comment[pt]=Criar e gerir notas e listas
 Comment[sv]=Skapa och hantera anteckningar och listor
@@ -18,6 +20,7 @@ Type=Application
 X-DocPath=rekollect/index.html
 X-DBUS-StartupType=Unique
 GenericName=Note Manager
+GenericName[es]=Gestor de notas
 GenericName[nds]=Notizenpleger
 GenericName[pt]=Gestor de Notas
 GenericName[sv]=Anteckningshanterare
