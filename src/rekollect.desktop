@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Rekollect
+Name[cs]=Rekollect
 Name[de]=Rekollect
 Name[es]=Rekollect
 Name[nds]=Rekollect
@@ -24,6 +25,7 @@ Type=Application
 X-DocPath=rekollect/index.html
 X-DBUS-StartupType=Unique
 GenericName=Note Manager
+GenericName[cs]=Správce poznámek
 GenericName[es]=Gestor de notas
 GenericName[nds]=Notizenpleger
 GenericName[nl]=Notitiebeheerder
