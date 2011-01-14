@@ -103,13 +103,21 @@ void TextileWriter::writeText(const QTextFragment &fragment)
     }
 
     if (format.isAnchor()) {
-        m_output << '"';
+        if (format.anchorHref().startsWith("rekollect:")) {
+            m_output << "[[";
+        } else {
+            m_output << '"';
+        }
     }
 
     m_output << fragment.text();
 
     if (format.isAnchor()) {
-        m_output << "\":" << format.anchorHref() << ' ';
+        if (format.anchorHref().startsWith("rekollect:")) {
+            m_output << "]]";
+        } else {
+            m_output << "\":" << format.anchorHref() << ' ';
+        }
     }
 
     if (format.fontStrikeOut() == true) {
@@ -127,9 +135,7 @@ void TextileWriter::writeText(const QTextFragment &fragment)
 
 void TextileWriter::processTexts(const QTextBlock &texts)
 {
-    if (texts.length() == 1) {
-        m_output << "\n";
-    } else {
+    if (texts.length() > 1) {
         QTextBlock::iterator it;
         for (it = texts.begin(); !(it.atEnd()); ++it) {
             QTextFragment currentText = it.fragment();
@@ -137,6 +143,6 @@ void TextileWriter::processTexts(const QTextBlock &texts)
                 writeText(currentText);
             }
         }
-        m_output << "\n";
     }
+    m_output << "\n";
 }
