@@ -43,10 +43,6 @@ public:
 
 private:
     void writeNote();
-    void writeMetaData();
-    void writeTags();
-    void writeTag(const QString &tag);
-    void writeBody();
     void writeParagraph(const QTextBlock &paragraph);
     void writeItem(const QTextBlock &item, QTextList *list);
     void writeText(const QTextFragment &fragment);

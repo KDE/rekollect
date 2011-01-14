@@ -47,13 +47,7 @@ bool TextileWriter::write(QString *string)
 
 void TextileWriter::writeNote()
 {
-    writeBody();
-}
-
-void TextileWriter::writeBody()
-{
     QTextFrame::iterator it;
-    bool inList = false;
     for (it = m_textFrame->begin(); !(it.atEnd()); ++it) {
 
         QTextBlock paragraph = it.currentBlock();
