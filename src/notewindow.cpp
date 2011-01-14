@@ -1,6 +1,6 @@
 /*
     Rekollect: A note taking application
-    Copyright (C) 2009, 2010  Jason Jackson <jacksonje@gmail.com>
+    Copyright (C) 2009, 2010, 2011  Jason Jackson <jacksonje@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 #include "noteeditor.h"
 #include "note.h"
 #include "io/native/notewriter.h"
+#include "io/textile/textilewriter.h"
 
 #include <QtGui/QActionGroup>
 #include <QtCore/QSignalMapper>
@@ -238,6 +239,9 @@ void NoteWindow::createActions()
 
     m_exportAsHtmlAction = new KAction(i18nc("@action:inmenu Export note as HTML", "as HTML..."), this);
     connect(m_exportAsHtmlAction, SIGNAL(triggered()), SLOT(exportAsHtml()));
+
+    m_exportAsTextileAction = new KAction(i18nc("@action:inmenu Export note as Textile", "as Textile..."), this);
+    connect(m_exportAsTextileAction, SIGNAL(triggered()), SLOT(exportAsTextile()));
 }
 
 void NoteWindow::createToolbar()
@@ -300,6 +304,8 @@ void NoteWindow::createToolbar()
     m_actionActionMenu->addAction(m_deleteNoteAction);
     m_actionActionMenu->addSeparator()->setText(i18nc("@title:group File export options", "Export as ..."));
     m_actionActionMenu->addAction(m_exportAsHtmlAction);
+    m_actionActionMenu->addAction(m_exportAsTextileAction);
+
     toolBar()->addAction(m_actionActionMenu);
 
     connect(m_noteEditor, SIGNAL(currentCharFormatChanged(QTextCharFormat)),
@@ -399,6 +405,37 @@ void NoteWindow::exportAsHtml()
 
     KIO::StoredTransferJob *job = KIO::storedPut(htmlOutput, saveFile, -1, KIO::Overwrite);
     connect(job, SIGNAL(result(KJob*)), SLOT(slotPutResult(KJob*)));
+}
+
+void NoteWindow::exportAsTextile()
+{
+    Note *note = editor()->document();
+
+    KUrl saveFileUrl = KFileDialog::getSaveUrl(
+        KUrl("kfiledialog:///"), QString("text/plain"), this,
+        i18nc("@title", "Select a destination directory")
+    );
+
+    if (!saveFileUrl.isEmpty()) {
+        KSaveFile saveFile(saveFileUrl.path());
+        saveFile.open();
+
+        TextileWriter writer(note->rootFrame(), note->tags());
+        if (!writer.writeFile(&saveFile)) {
+            KMessageBox::error(0,
+                            i18nc("@info Error message", "An error occurred saving the file."),
+                            i18nc("@title:window", "Save Error"));
+        }
+
+        bool isSuccessful = saveFile.finalize();
+        saveFile.close();
+
+        if (!isSuccessful) {
+            KMessageBox::error(0,
+                            i18nc("@info Error message", "An error occurred saving the file."),
+                            i18nc("@title:window", "Save Error"));
+        }
+    }
 }
 
 void NoteWindow::slotPutResult(KJob *job)

@@ -25,6 +25,7 @@ kde4_add_kcfg_files(rekollect_SRCS settings.kcfgc )
 kde4_add_executable(rekollect ${rekollect_SRCS})
 
 target_link_libraries(rekollect rekollectionative
+                                rekollectiotextile
                                 ${KDE4_KDEUI_LIBS}
                                 ${KDE4_KIO_LIBS}
                                 ${KDE4_KUTILS_LIBS}

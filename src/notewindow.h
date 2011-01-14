@@ -1,6 +1,6 @@
 /*
     Rekollect: A note taking application
-    Copyright (C) 2009, 2010  Jason Jackson <jacksonje@gmail.com>
+    Copyright (C) 2009, 2010, 2011  Jason Jackson <jacksonje@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -66,6 +66,7 @@ private slots:
     void editLink();
     void updateFormatMenu(const QTextCharFormat &charFormat);
     void exportAsHtml();
+    void exportAsTextile();
     void slotPutResult(KJob *job);
 
     void printRequested();
@@ -100,7 +101,7 @@ private:
     KAction *m_redoAction;
     KAction *m_deleteNoteAction;
     KAction *m_exportAsHtmlAction;
-
+    KAction *m_exportAsTextileAction;
 
 };
 
