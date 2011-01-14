@@ -412,7 +412,7 @@ void NoteWindow::exportAsTextile()
     Note *note = editor()->document();
 
     KUrl saveFileUrl = KFileDialog::getSaveUrl(
-        KUrl("kfiledialog:///"), QString("text/plain"), this,
+        KUrl("kfiledialog:///textile/"+note->documentName()), QString("text/plain"), this,
         i18nc("@title", "Select a destination directory")
     );
 
