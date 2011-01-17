@@ -28,6 +28,8 @@
 #include <QtCore/QFileInfo>
 #include <QtGui/QPrinter>
 #include <QtGui/QPrintDialog>
+#include <QtGui/QClipboard>
+#include <QtGui/QApplication>
 
 #include <KActionMenu>
 #include <KToolBar>
@@ -242,6 +244,9 @@ void NoteWindow::createActions()
 
     m_exportAsTextileAction = new KAction(i18nc("@action:inmenu Export note as Textile", "as Textile..."), this);
     connect(m_exportAsTextileAction, SIGNAL(triggered()), SLOT(exportAsTextile()));
+
+    m_copyAsTextileAction = new KAction(i18nc("@action:inmenu Copy note as Textile to clipboard", "as Textile..."), this);
+    connect(m_copyAsTextileAction, SIGNAL(triggered()), SLOT(copyAsTextile()));
 }
 
 void NoteWindow::createToolbar()
@@ -305,6 +310,8 @@ void NoteWindow::createToolbar()
     m_actionActionMenu->addSeparator()->setText(i18nc("@title:group File export options", "Export as ..."));
     m_actionActionMenu->addAction(m_exportAsHtmlAction);
     m_actionActionMenu->addAction(m_exportAsTextileAction);
+    m_actionActionMenu->addSeparator()->setText(i18nc("@title:group Copy as options", "Copy as ..."));
+    m_actionActionMenu->addAction(m_copyAsTextileAction);
 
     toolBar()->addAction(m_actionActionMenu);
 
@@ -436,6 +443,18 @@ void NoteWindow::exportAsTextile()
                             i18nc("@title:window", "Save Error"));
         }
     }
+}
+
+void NoteWindow::copyAsTextile()
+{
+    Note *note = editor()->document();
+    QString textileCopy;
+
+    TextileWriter writer(note->rootFrame(), note->tags());
+    writer.write(&textileCopy);
+
+    QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setText(textileCopy);
 }
 
 void NoteWindow::slotPutResult(KJob *job)

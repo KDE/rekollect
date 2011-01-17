@@ -67,6 +67,7 @@ private slots:
     void updateFormatMenu(const QTextCharFormat &charFormat);
     void exportAsHtml();
     void exportAsTextile();
+    void copyAsTextile();
     void slotPutResult(KJob *job);
 
     void printRequested();
@@ -102,6 +103,7 @@ private:
     KAction *m_deleteNoteAction;
     KAction *m_exportAsHtmlAction;
     KAction *m_exportAsTextileAction;
+    KAction *m_copyAsTextileAction;
 
 };
 
