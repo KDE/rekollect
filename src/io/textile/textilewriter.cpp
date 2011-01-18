@@ -73,21 +73,24 @@ void TextileWriter::writeItem(const QTextBlock &item, QTextList *list)
     processTexts(item);
 }
 
-void TextileWriter::writeText(const QTextFragment &fragment)
+void TextileWriter::writeText(const QTextFragment &fragment, bool atBlockStart)
 {
     QTextCharFormat format = fragment.charFormat();
 
-    switch (int(format.fontPointSize())) {
-    case Note::SmallFont:
-        break;
-    case Note::NormalFont:
-        break;
-    case Note::LargeFont:
-        m_output << "h2. ";
-        break;
-    case Note::HugeFont:
-        m_output << "h1. ";
-        break;
+    // Textile does not support text size changes in the middle of a block of text
+    if (atBlockStart) {
+        switch (int(format.fontPointSize())) {
+        case Note::SmallFont:
+            break;
+        case Note::NormalFont:
+            break;
+        case Note::LargeFont:
+            m_output << "h2. ";
+            break;
+        case Note::HugeFont:
+            m_output << "h1. ";
+            break;
+        }
     }
 
     if (format.fontWeight() == QFont::Bold) {
@@ -137,11 +140,13 @@ void TextileWriter::processTexts(const QTextBlock &texts)
 {
     if (texts.length() > 1) {
         QTextBlock::iterator it;
+        bool atBlockStart = true;
         for (it = texts.begin(); !(it.atEnd()); ++it) {
             QTextFragment currentText = it.fragment();
             if (currentText.isValid()) {
-                writeText(currentText);
+                writeText(currentText, atBlockStart);
             }
+            atBlockStart = false;
         }
     }
     m_output << "\n";

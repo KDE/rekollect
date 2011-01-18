@@ -45,7 +45,7 @@ private:
     void writeNote();
     void writeParagraph(const QTextBlock &paragraph);
     void writeItem(const QTextBlock &item, QTextList *list);
-    void writeText(const QTextFragment &fragment);
+    void writeText(const QTextFragment &fragment, bool atBlockStart);
 
     void processTexts(const QTextBlock &texts);
 
