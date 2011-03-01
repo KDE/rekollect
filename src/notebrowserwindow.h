@@ -32,6 +32,7 @@ class SystemTrayIcon;
 
 namespace Ui {
     class GeneralSettingsWidget;
+    class DisplaySettingsWidget;
 }
 
 class QSortFilterProxyModel;
@@ -88,6 +89,7 @@ private:
     SystemTrayIcon *m_systemTrayIcon;
 
     Ui::GeneralSettingsWidget *ui_generalSettings;
+    Ui::DisplaySettingsWidget *ui_displaySettings;
 
 };
 

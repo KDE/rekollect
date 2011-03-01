@@ -27,6 +27,7 @@
 #include "linkeditdialog.h"
 #include "settings.h"
 #include "ui_settings_general.h"
+#include "ui_settings_display.h"
 
 #include <QtGui/QTableView>
 #include <QtGui/QHeaderView>
@@ -263,6 +264,10 @@ void NoteBrowserWindow::showPreferences()
     ui_generalSettings = new Ui::GeneralSettingsWidget;
     ui_generalSettings->setupUi(generalSettingsDlg);
     dialog->addPage(generalSettingsDlg, i18nc("@title:group", "General"), "configure");
+    QWidget *displaySettingsDlg = new QWidget;
+    ui_displaySettings = new Ui::DisplaySettingsWidget;
+    ui_displaySettings->setupUi(displaySettingsDlg);
+    dialog->addPage(displaySettingsDlg, i18nc("@title:group", "Display"), "configure");
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 }

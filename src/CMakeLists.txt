@@ -18,7 +18,7 @@ if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D DEBUG")
 endif()
 
-kde4_add_ui_files(rekollect_SRCS settings_general.ui edit_link.ui)
+kde4_add_ui_files(rekollect_SRCS settings_general.ui settings_display.ui edit_link.ui)
 
 kde4_add_kcfg_files(rekollect_SRCS settings.kcfgc )
 

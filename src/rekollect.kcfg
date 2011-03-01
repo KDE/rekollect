@@ -4,10 +4,39 @@
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
   <kcfgfile name="rekollectrc"/>
+  <include>kglobalsettings.h</include>
+  <include>qfont.h</include>
   <group name="General">
     <entry name="StartHidden" type="Bool">
 	    <label>Hide Note Browser on start</label>
 	    <default>false</default>
+    </entry>
+  </group>
+  <group name="Display">
+    <entry name="SmallFont" type="Font">
+      <label>The font used to display normal sized text.</label>
+      <code>
+        QFont _normalFont = KGlobalSettings::generalFont();
+        QFont _smallFont(_normalFont);
+        _smallFont.setPointSize(_normalFont.pointSize() - 2);
+        QFont _largeFont(_normalFont);
+        _largeFont.setPointSize(_normalFont.pointSize() + 2);
+        QFont _hugeFont(_normalFont);
+        _hugeFont.setPointSize(_normalFont.pointSize() + 4);
+      </code>
+      <default code="true">_smallFont</default>
+    </entry>
+    <entry name="NormalFont" type="Font">
+      <label>The font used to display normal sized text.</label>
+      <default code="true">_normalFont</default>
+    </entry>
+    <entry name="LargeFont" type="Font">
+      <label>The font used to display normal sized text.</label>
+      <default code="true">_largeFont</default>
+    </entry>
+    <entry name="HugeFont" type="Font">
+      <label>The font used to display normal sized text.</label>
+      <default code="true">_hugeFont</default>
     </entry>
   </group>
 </kcfg>
