@@ -19,7 +19,7 @@
 */
 
 #include "textilewriter.h"
-#include "../../note.h"
+#include "../../settings.h"
 
 #include <QtGui/QTextFrame>
 #include <QtGui/QTextList>
@@ -79,17 +79,10 @@ void TextileWriter::writeText(const QTextFragment &fragment, bool atBlockStart)
 
     // Textile does not support text size changes in the middle of a block of text
     if (atBlockStart) {
-        switch (int(format.fontPointSize())) {
-        case Note::SmallFont:
-            break;
-        case Note::NormalFont:
-            break;
-        case Note::LargeFont:
+        if (format.fontPointSize() == Settings::largeFont().pointSize()) {
             m_output << "h2. ";
-            break;
-        case Note::HugeFont:
+        } else if (format.fontPointSize() == Settings::hugeFont().pointSize()) {
             m_output << "h1. ";
-            break;
         }
     }
 

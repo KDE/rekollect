@@ -19,7 +19,7 @@
 */
 
 #include "notewriter.h"
-#include "../../note.h"
+#include "../../settings.h"
 
 #include <QtGui/QTextFrame>
 #include <QtGui/QTextList>
@@ -131,19 +131,14 @@ void NoteWriter::writeText(const QTextFragment &fragment)
         m_xml.writeAttribute("strikethrough", "true");
     }
 
-    switch (int(format.fontPointSize())) {
-    case Note::SmallFont:
+    if (format.fontPointSize() == Settings::smallFont().pointSize()) {
         m_xml.writeAttribute("size", "small");
-        break;
-    case Note::NormalFont:
-        m_xml.writeAttribute("size", "normal");
-        break;
-    case Note::LargeFont:
+    } else if (format.fontPointSize() == Settings::largeFont().pointSize()) {
         m_xml.writeAttribute("size", "large");
-        break;
-    case Note::HugeFont:
+    } else if (format.fontPointSize() == Settings::hugeFont().pointSize()) {
         m_xml.writeAttribute("size", "huge");
-        break;
+    } else {
+        m_xml.writeAttribute("size", "normal");
     }
 
     if (format.background() == Qt::yellow) {

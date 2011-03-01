@@ -19,7 +19,7 @@
 */
 
 #include "notereader.h"
-#include "../../note.h"
+#include "../../settings.h"
 
 #include <QXmlSchema>
 #include <QXmlSchemaValidator>
@@ -218,16 +218,16 @@ void NoteReader::readText()
     if (attributes.hasAttribute("size")) {
         QStringRef size = attributes.value("size");
         if (size == "small") {
-            charFormat.setFontPointSize(Note::SmallFont);
+            charFormat.setFontPointSize(Settings::smallFont().pointSize());
         } else if (size == "large") {
-            charFormat.setFontPointSize(Note::LargeFont);
+            charFormat.setFontPointSize(Settings::largeFont().pointSize());
         } else if (size == "huge") {
-            charFormat.setFontPointSize(Note::HugeFont);
+            charFormat.setFontPointSize(Settings::hugeFont().pointSize());
         } else {
-            charFormat.setFontPointSize(Note::NormalFont);
+            charFormat.setFontPointSize(Settings::normalFont().pointSize());
         }
     } else {
-        charFormat.setFontPointSize(Note::NormalFont);
+        charFormat.setFontPointSize(Settings::normalFont().pointSize());
     }
 
     if (attributes.hasAttribute("highlight")) {

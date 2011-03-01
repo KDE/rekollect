@@ -20,6 +20,7 @@
 
 #include "noteeditor.h"
 #include "note.h"
+#include "settings.h"
 
 #include <QtGui/QTextList>
 #include <QtGui/QMouseEvent>
@@ -191,38 +192,40 @@ void NoteEditor::setFontSize(int fontSize)
 
 void NoteEditor::increaseFontSize()
 {
-    switch (static_cast<int>(fontPointSize())) {
-        case Note::SmallFont:
-            setFontSize(Note::NormalFont);
-            break;
-        case Note::NormalFont:
-            setFontSize(Note::LargeFont);
-            break;
-        case Note::LargeFont:
-            setFontSize(Note::HugeFont);
-            break;
+    if (fontPointSize() == Settings::smallFont().pointSize()) {
+        setFontSize(Settings::normalFont().pointSize());
+    } else if (fontPointSize() == Settings::normalFont().pointSize()) {
+        setFontSize(Settings::largeFont().pointSize());
+    } else if (fontPointSize() == Settings::largeFont().pointSize()) {
+        setFontSize(Settings::hugeFont().pointSize());
+    } else if (fontPointSize() == Settings::hugeFont().pointSize()) {
+        // Do not increase font size if at largest size
+    } else {
+        // Allow changing the size of non-standard text pasted in from other applications
+        setFontSize(Settings::normalFont().pointSize());
     }
 }
 
 void NoteEditor::decreaseFontSize()
 {
-    switch (static_cast<int>(fontPointSize())) {
-        case Note::NormalFont:
-            setFontSize(Note::SmallFont);
-            break;
-        case Note::LargeFont:
-            setFontSize(Note::NormalFont);
-            break;
-        case Note::HugeFont:
-            setFontSize(Note::LargeFont);
-            break;
+    if (fontPointSize() == Settings::smallFont().pointSize()) {
+        // Do not decrease font size if at smallest size
+    } else if (fontPointSize() == Settings::normalFont().pointSize()) {
+        setFontSize(Settings::smallFont().pointSize());
+    } else if (fontPointSize() == Settings::largeFont().pointSize()) {
+        setFontSize(Settings::normalFont().pointSize());
+    } else if (fontPointSize() == Settings::hugeFont().pointSize()) {
+        setFontSize(Settings::largeFont().pointSize());
+    } else {
+        // Allow changing the size of non-standard text pasted in from other applications
+        setFontSize(Settings::normalFont().pointSize());
     }
 }
 
 void NoteEditor::resetFontSize()
 {
     QTextCharFormat fontSizeFormat;
-    fontSizeFormat.setFontPointSize(Note::NormalFont);
+    fontSizeFormat.setFontPointSize(Settings::normalFont().pointSize());
     mergeCharFormatToSelectionOrWord(fontSizeFormat);
 }
 

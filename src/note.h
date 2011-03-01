@@ -34,13 +34,6 @@ class Note : public QTextDocument
 public:
     explicit Note(const QString &noteFileName, QObject *parent=0);
 
-    enum FontSize {
-        SmallFont = 8,
-        NormalFont = 10,
-        LargeFont = 14,
-        HugeFont = 18
-    };
-
     void setFileName(const QString &fileName);
     QString fileName() const;
 

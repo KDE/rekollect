@@ -20,6 +20,7 @@
 #include "notewindow.h"
 #include "noteeditor.h"
 #include "note.h"
+#include "settings.h"
 #include "io/native/notewriter.h"
 #include "io/textile/textilewriter.h"
 
@@ -174,36 +175,36 @@ void NoteWindow::createActions()
     m_smallTextAction = new KAction(i18nc("@option:radio Font size", "S&mall"), this);
     m_smallTextAction->setCheckable(true);
     QFont smallTextFont;
-    smallTextFont.setPointSize(Note::SmallFont);
+    smallTextFont.setPointSize(Settings::smallFont().pointSize());
     m_smallTextAction->setFont(smallTextFont);
 
     m_normalTextAction = new KAction(i18nc("@option:radio Font size", "&Normal"), this);
     m_normalTextAction->setCheckable(true);
     QFont normalTextFont;
-    normalTextFont.setPointSize(Note::NormalFont);
+    normalTextFont.setPointSize(Settings::normalFont().pointSize());
     m_normalTextAction->setFont(normalTextFont);
 
     m_largeTextAction = new KAction(i18nc("@option:radio Font size", "&Large"), this);
     m_largeTextAction->setCheckable(true);
     QFont largeTextFont;
-    largeTextFont.setPointSize(Note::LargeFont);
+    largeTextFont.setPointSize(Settings::largeFont().pointSize());
     m_largeTextAction->setFont(largeTextFont);
 
     m_hugeTextAction = new KAction(i18nc("@option:radio Font size", "&Huge"), this);
     m_hugeTextAction->setCheckable(true);
     QFont hugeTextFont;
-    hugeTextFont.setPointSize(Note::HugeFont);
+    hugeTextFont.setPointSize(Settings::hugeFont().pointSize());
     m_hugeTextAction->setFont(hugeTextFont);
 
     m_fontSizeSignalMapper = new QSignalMapper(this);
     connect(m_smallTextAction, SIGNAL(triggered()), m_fontSizeSignalMapper, SLOT(map()));
-    m_fontSizeSignalMapper->setMapping(m_smallTextAction, Note::SmallFont);
+    m_fontSizeSignalMapper->setMapping(m_smallTextAction, Settings::smallFont().pointSize());
     connect(m_normalTextAction, SIGNAL(triggered()), m_fontSizeSignalMapper, SLOT(map()));
-    m_fontSizeSignalMapper->setMapping(m_normalTextAction, Note::NormalFont);
+    m_fontSizeSignalMapper->setMapping(m_normalTextAction, Settings::normalFont().pointSize());
     connect(m_largeTextAction, SIGNAL(triggered()), m_fontSizeSignalMapper, SLOT(map()));
-    m_fontSizeSignalMapper->setMapping(m_largeTextAction, Note::LargeFont);
+    m_fontSizeSignalMapper->setMapping(m_largeTextAction, Settings::largeFont().pointSize());
     connect(m_hugeTextAction, SIGNAL(triggered()), m_fontSizeSignalMapper, SLOT(map()));
-    m_fontSizeSignalMapper->setMapping(m_hugeTextAction, Note::HugeFont);
+    m_fontSizeSignalMapper->setMapping(m_hugeTextAction, Settings::hugeFont().pointSize());
     connect(m_fontSizeSignalMapper, SIGNAL(mapped(int)), m_noteEditor, SLOT(setFontSize(int)));
 
     m_fontSizeGroup = new QActionGroup(this);
@@ -384,19 +385,14 @@ void NoteWindow::updateFormatMenu(const QTextCharFormat &charFormat)
     m_strikeOutAction->setChecked(charFormat_.fontStrikeOut());
     m_highlightAction->setChecked(charFormat_.background() == Qt::yellow);
 
-    switch (static_cast<int>(charFormat.fontPointSize())) {
-        case Note::SmallFont:
-            m_smallTextAction->setChecked(true);
-            break;
-        case Note::NormalFont:
-            m_normalTextAction->setChecked(true);
-            break;
-        case Note::LargeFont:
-            m_largeTextAction->setChecked(true);
-            break;
-        case Note::HugeFont:
-            m_hugeTextAction->setChecked(true);
-            break;
+    if (charFormat.fontPointSize() == Settings::smallFont().pointSize()) {
+        m_smallTextAction->setChecked(true);
+    } else if (charFormat.fontPointSize() == Settings::normalFont().pointSize()) {
+        m_normalTextAction->setChecked(true);
+    } else if (charFormat.fontPointSize() == Settings::largeFont().pointSize()) {
+        m_largeTextAction->setChecked(true);
+    } else if (charFormat.fontPointSize() == Settings::hugeFont().pointSize()) {
+        m_hugeTextAction->setChecked(true);
     }
 }
 
