@@ -269,6 +269,7 @@ void NoteBrowserWindow::showPreferences()
     ui_displaySettings->setupUi(displaySettingsDlg);
     dialog->addPage(displaySettingsDlg, i18nc("@title:group", "Display"), "configure");
     dialog->setAttribute(Qt::WA_DeleteOnClose);
+    connect(dialog, SIGNAL(settingsChanged(QString)), m_windowCollection, SLOT(updateOpenWindows()));
     dialog->show();
 }
 

@@ -20,6 +20,7 @@
 #include "notewindow.h"
 #include "noteeditor.h"
 #include "note.h"
+#include "notefactory.h"
 #include "settings.h"
 #include "io/native/notewriter.h"
 #include "io/textile/textilewriter.h"
@@ -117,6 +118,16 @@ void NoteWindow::saveNote()
                            i18nc("@info Error message", "An error occurred saving the file."),
                            i18nc("@title:window", "Save Error"));
     }
+}
+
+void NoteWindow::updateNote()
+{
+    disconnect(m_noteEditor, SIGNAL(textChanged()), this, SLOT(saveNote()));
+    Note *note = editor()->document();
+    Note *newNote = NoteFactory::openExistingNote(note->fileName());
+    editor()->setDocument(newNote);
+    connect(m_noteEditor, SIGNAL(textChanged()), this, SLOT(saveNote()));
+    delete note;
 }
 
 void NoteWindow::createActions()

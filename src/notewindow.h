@@ -46,6 +46,7 @@ public:
 public slots:
     void deleteNote();
     void saveNote();
+    void updateNote();
 
 signals:
     void closeRequested(const QString &fileName);

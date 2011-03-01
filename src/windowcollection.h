@@ -38,6 +38,9 @@ public:
     bool windowExists(const QString &fileName);
     void showWindow(const QString &fileName);
 
+public slots:
+    void updateOpenWindows();
+
 private slots:
     void removeNoteWindow(const QString &fileName);
 

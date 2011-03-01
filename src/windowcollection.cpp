@@ -51,6 +51,13 @@ void WindowCollection::showWindow(const QString &fileName)
     window->activateWindow();
 }
 
+void WindowCollection::updateOpenWindows()
+{
+    foreach (NoteWindow *window, m_windows) {
+        window->updateNote();
+    }
+}
+
 void WindowCollection::removeNoteWindow(const QString &fileName)
 {
     if (m_windows.contains(fileName)) {
