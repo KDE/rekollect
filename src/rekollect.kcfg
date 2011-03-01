@@ -20,9 +20,9 @@
         QFont _smallFont(_normalFont);
         _smallFont.setPointSize(_normalFont.pointSize() - 2);
         QFont _largeFont(_normalFont);
-        _largeFont.setPointSize(_normalFont.pointSize() + 2);
+        _largeFont.setPointSize(_normalFont.pointSize() + 4);
         QFont _hugeFont(_normalFont);
-        _hugeFont.setPointSize(_normalFont.pointSize() + 4);
+        _hugeFont.setPointSize(_normalFont.pointSize() + 8);
       </code>
       <default code="true">_smallFont</default>
     </entry>
