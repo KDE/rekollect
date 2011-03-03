@@ -12,6 +12,11 @@ set(rekollect_SRCS
    notewindow.cpp
    windowcollection.cpp
    main.cpp
+   note/document.cpp
+   note/paragraph.cpp
+   note/list.cpp
+   note/fragment.cpp
+
 )
 
 if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
@@ -41,3 +46,4 @@ install( FILES rekollect.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES rekollectui.rc  DESTINATION  ${DATA_INSTALL_DIR}/rekollect )
 
 add_subdirectory(io)
+add_subdirectory(note)
