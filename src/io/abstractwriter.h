@@ -30,13 +30,12 @@ class QTextFrame;
 class AbstractWriter
 {
 public:
-    AbstractWriter(QTextFrame *textFrame, QSet<QString> tags) { m_textFrame = textFrame; m_tags = tags; }
+    AbstractWriter(QTextFrame *textFrame) { m_textFrame = textFrame; }
     virtual bool writeFile(QIODevice *device) = 0;
     virtual ~AbstractWriter() {}
 
 protected:
     QTextFrame *m_textFrame;
-    QSet<QString> m_tags;
 };
 
 #endif // ABSTRACTWRITER_H

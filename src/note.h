@@ -22,8 +22,6 @@
 
 #include <QtGui/QTextDocument>
 
-#include <QtCore/QSet>
-
 #include <KDateTime>
 
 class NoteCollection;
@@ -43,9 +41,6 @@ public:
     KDateTime modificationTime() const;
 
 public slots:
-    void addTag(const QString &tagName);
-    QSet<QString> tags() const;
-
     void updateDocumentName();
 
 signals:
@@ -57,7 +52,6 @@ private:
 
     QString m_fileName;
     QString m_documentName;
-    QSet<QString> m_tags;
 };
 
 #endif // NOTE_H

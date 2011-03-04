@@ -25,8 +25,8 @@
 
 #include <KLocalizedString>
 
-NoteWriter::NoteWriter(QTextFrame *textFrame, QSet<QString> tags)
-    : AbstractWriter(textFrame, tags)
+NoteWriter::NoteWriter(QTextFrame *textFrame)
+    : AbstractWriter(textFrame)
 {
     m_xml.setAutoFormatting(true);
 }
@@ -43,33 +43,9 @@ void NoteWriter::writeNote()
 {
     m_xml.writeStartElement("note");
     m_xml.writeAttribute("version", "1");
-    writeMetaData();
     writeBody();
     m_xml.writeEndElement();
     m_xml.writeEndDocument();
-}
-
-void NoteWriter::writeMetaData()
-{
-    m_xml.writeStartElement("metadata");
-    writeTags();
-    m_xml.writeEndElement();
-}
-
-void NoteWriter::writeTags()
-{
-    m_xml.writeStartElement("tags");
-    foreach (const QString &tag, m_tags) {
-        writeTag(tag);
-    }
-    m_xml.writeEndElement();
-}
-
-void NoteWriter::writeTag(const QString &tag)
-{
-    m_xml.writeStartElement("tag");
-    m_xml.writeCharacters(tag);
-    m_xml.writeEndElement();
 }
 
 void NoteWriter::writeBody()

@@ -35,16 +35,13 @@ class QTextFragment;
 class KDE_EXPORT NoteWriter : public AbstractWriter
 {
 public:
-    explicit NoteWriter(QTextFrame *textFrame, QSet<QString> tags = QSet<QString>());
+    explicit NoteWriter(QTextFrame *textFrame);
     ~NoteWriter() {}
 
     bool writeFile(QIODevice *device);
 
 private:
     void writeNote();
-    void writeMetaData();
-    void writeTags();
-    void writeTag(const QString &tag);
     void writeBody();
     void writeParagraph(const QTextBlock &paragraph);
     void writeItem(const QTextBlock &item, QTextList *list);

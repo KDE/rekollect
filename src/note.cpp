@@ -57,16 +57,6 @@ KDateTime Note::modificationTime() const
     return item.time(KFileItem::ModificationTime);
 }
 
-void Note::addTag(const QString &tagName)
-{
-    m_tags.insert(tagName);
-}
-
-QSet<QString> Note::tags() const
-{
-    return m_tags;
-}
-
 void Note::updateDocumentName()
 {
     QString currentDocumentName = parseDocumentName();
