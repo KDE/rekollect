@@ -20,6 +20,8 @@
 
 #include "notefactory.h"
 #include "note.h"
+#include "noteparser.h"
+#include "note/document.h"
 #include "io/native/notereader.h"
 
 #include <QtGui/QTextCursor>
@@ -29,6 +31,7 @@
 #include <KStandardDirs>
 #include <KConfigGroup>
 #include <KSharedConfig>
+
 
 Note *NoteFactory::createNewNote(const QString &newNoteName)
 {
@@ -66,14 +69,12 @@ Note* NoteFactory::loadNote(const QString& fileName)
     QFile file(fileName);
     file.open(QIODevice::ReadOnly);
 
+    NoteReader reader;
+    Document document = reader.read(&file);
     QTextCursor noteTextCursor(note);
-    NoteReader reader(&noteTextCursor);
-    if (!reader.read(&file)) {
-        return 0;
-    }
-    foreach (const QString &tag, reader.tags()) {
-        note->addTag(tag);
-    }
+    NoteParser parser(document, &noteTextCursor);
+    parser.parse();
+
     return note;
 }
 

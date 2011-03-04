@@ -1,6 +1,6 @@
 /*
     Rekollect: A note taking application
-    Copyright (C) 2010  Jason Jackson <jacksonje@gmail.com>
+    Copyright (C) 2010, 2011  Jason Jackson <jacksonje@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@
 #define NOTEREADER_H
 
 #include "../abstractreader.h"
+#include "../../note/document.h"
+#include "../../note/paragraph.h"
 
 #include <QtCore/QXmlStreamReader>
 
@@ -29,31 +31,28 @@
 
 class QTextCursor;
 
+
 class KDE_EXPORT NoteReader : public AbstractReader
 {
 public:
-    NoteReader(QTextCursor *textCursor);
+    NoteReader();
     ~NoteReader() {}
 
-    bool read(QIODevice *device);
-    QList<QString> tags() const;
+    Document read(QIODevice *device);
     QString errorString() const;
 
 private:
     void readNote();
-    void readMetaData();
-    void readTags();
-    void readTag();
     void readBody();
     void readParagraph();
     void readList();
-    void readItem();
-    void readText();
+    void readItem(Paragraph *list);
+    void readText(Paragraph *paragraph);
 
     bool validateNote(QIODevice *device);
 
     QXmlStreamReader m_xml;
-    QList<QString> m_tags;
+    Document m_document;
 };
 
 #endif // NOTEREADER_H

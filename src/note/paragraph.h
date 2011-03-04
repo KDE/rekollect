@@ -30,7 +30,11 @@ class Paragraph : public QObject
 {
     Q_OBJECT
 public:
+    Paragraph();
+    Paragraph(const Paragraph &paragraph);
+
     QList<Fragment> fragments;
+    int indentLevel;
 };
 
 #endif // PARAGRAPH_H

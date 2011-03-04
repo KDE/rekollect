@@ -1,5 +1,6 @@
 set(rekollect_SRCS
    notefactory.cpp
+   noteparser.cpp
    rekollectapplication.cpp
    datetimeitem.cpp
    negativefilterproxymodel.cpp
@@ -14,7 +15,6 @@ set(rekollect_SRCS
    main.cpp
    note/document.cpp
    note/paragraph.cpp
-   note/list.cpp
    note/fragment.cpp
 
 )

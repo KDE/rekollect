@@ -20,3 +20,16 @@
 
 #include "document.h"
 
+Document::Document(const Document &document): QObject()
+{
+    body = QList<Paragraph>(document.body);
+}
+
+bool Document::isEmpty()
+{
+    if (body.count() == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}

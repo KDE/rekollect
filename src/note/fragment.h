@@ -28,6 +28,9 @@ class Fragment : public QObject
 {
     Q_OBJECT
 public:
+    Fragment();
+    Fragment(const Fragment &fragment);
+
     enum FontSize {
         SMALL, NORMAL, LARGE, HUGE
     };

@@ -26,15 +26,15 @@
 class QTextCursor;
 class QIODevice;
 class QString;
+class Document;
 
 class AbstractReader
 {
 public:
-    AbstractReader(QTextCursor *textCursor) {m_textCursor = textCursor;}
+    AbstractReader() {}
     virtual ~AbstractReader() {}
 
-    virtual bool read(QIODevice *device) = 0;
-    virtual QList<QString> tags() const = 0;
+    virtual Document read(QIODevice *device) = 0;
     virtual QString errorString() const = 0;
 
 protected:

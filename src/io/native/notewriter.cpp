@@ -19,7 +19,6 @@
 */
 
 #include "notewriter.h"
-#include "../../settings.h"
 
 #include <QtGui/QTextFrame>
 #include <QtGui/QTextList>
@@ -131,15 +130,15 @@ void NoteWriter::writeText(const QTextFragment &fragment)
         m_xml.writeAttribute("strikethrough", "true");
     }
 
-    if (format.fontPointSize() == Settings::smallFont().pointSize()) {
-        m_xml.writeAttribute("size", "small");
-    } else if (format.fontPointSize() == Settings::largeFont().pointSize()) {
-        m_xml.writeAttribute("size", "large");
-    } else if (format.fontPointSize() == Settings::hugeFont().pointSize()) {
-        m_xml.writeAttribute("size", "huge");
-    } else {
-        m_xml.writeAttribute("size", "normal");
-    }
+//     if (format.fontPointSize() == Settings::smallFont().pointSize()) {
+//         m_xml.writeAttribute("size", "small");
+//     } else if (format.fontPointSize() == Settings::largeFont().pointSize()) {
+//         m_xml.writeAttribute("size", "large");
+//     } else if (format.fontPointSize() == Settings::hugeFont().pointSize()) {
+//         m_xml.writeAttribute("size", "huge");
+//     } else {
+//         m_xml.writeAttribute("size", "normal");
+//     }
 
     if (format.background() == Qt::yellow) {
         m_xml.writeAttribute("highlight", "true");

@@ -31,9 +31,11 @@ class Document : public QObject
 {
     Q_OBJECT
 public:
-    QString title;
-    QStringList tags;
+    Document() {}
+    Document(const Document &document);
+
     QList<Paragraph> body;
+    bool isEmpty();
 
 };
 

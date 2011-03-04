@@ -18,5 +18,25 @@
 
 */
 
-#include "list.h"
+#ifndef NOTEPARSER_H
+#define NOTEPARSER_H
 
+#include "note/document.h"
+
+#include <QtCore/QObject>
+#include <QtGui/QTextCursor>
+
+
+class NoteParser : public QObject
+{
+    Q_OBJECT
+public:
+    NoteParser(const Document &document, QTextCursor *textCursor);
+    bool parse();
+
+private:
+    const Document &m_document;
+    QTextCursor *m_textCursor;
+};
+
+#endif // NOTEPARSER_H

@@ -20,3 +20,13 @@
 
 #include "paragraph.h"
 
+Paragraph::Paragraph() : indentLevel(0)
+{
+
+}
+
+Paragraph::Paragraph(const Paragraph &paragraph): QObject()
+{
+    fragments = QList<Fragment>(paragraph.fragments);
+    indentLevel = paragraph.indentLevel;
+}

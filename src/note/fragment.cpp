@@ -20,3 +20,22 @@
 
 #include "fragment.h"
 
+Fragment::Fragment()
+{
+    bold = false;
+    italic = false;
+    strikeThrough = false;
+    highlight = false;
+    fontSize = NORMAL;
+}
+
+Fragment::Fragment(const Fragment &fragment): QObject()
+{
+    bold = fragment.bold;
+    italic = fragment.italic;
+    strikeThrough = fragment.strikeThrough;
+    highlight = fragment.highlight;
+    fontSize = fragment.fontSize;
+    anchorReference = fragment.anchorReference;
+    text = fragment.text;
+}

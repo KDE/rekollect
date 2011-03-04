@@ -1,6 +1,6 @@
 /*
     Rekollect: A note taking application
-    Copyright (C) 2010  Jason Jackson <jacksonje@gmail.com>
+    Copyright (C) 2010, 2011  Jason Jackson <jacksonje@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,7 +19,8 @@
 */
 
 #include "notereader.h"
-#include "../../settings.h"
+#include "../../note/paragraph.h"
+#include "../../note/fragment.h"
 
 #include <QXmlSchema>
 #include <QXmlSchemaValidator>
@@ -32,14 +33,15 @@
 #include <KStandardDirs>
 
 
-NoteReader::NoteReader(QTextCursor *textCursor)
-    : AbstractReader(textCursor)
+
+NoteReader::NoteReader()
+    : AbstractReader()
 {}
 
-bool NoteReader::read(QIODevice *device)
+Document NoteReader::read(QIODevice *device)
 {
     if (!validateNote(device)) {
-        return false;
+        return Document();
     }
 
     m_xml.setDevice(device);
@@ -51,12 +53,11 @@ bool NoteReader::read(QIODevice *device)
         }
     }
 
-    return !m_xml.error();
-}
-
-QList< QString > NoteReader::tags() const
-{
-    return m_tags;
+    if (!m_xml.error()) {
+        return m_document;
+    } else {
+        return Document();
+    }
 }
 
 QString NoteReader::errorString() const
@@ -74,60 +75,19 @@ void NoteReader::readNote()
     while (m_xml.readNextStartElement()) {
         if (m_xml.name() == "body") {
             readBody();
-        } else if (m_xml.name() == "metadata") {
-            readMetaData();
         } else {
             m_xml.skipCurrentElement();
         }
     }
-}
-
-void NoteReader::readMetaData()
-{
-    Q_ASSERT(m_xml.isStartElement() && m_xml.name() == "metadata");
-
-    while (m_xml.readNextStartElement()) {
-        if (m_xml.name() == "tags") {
-            readTags();
-        } else {
-            m_xml.skipCurrentElement();
-        }
-    }
-}
-
-void NoteReader::readTags()
-{
-    Q_ASSERT(m_xml.isStartElement() && m_xml.name() == "tags");
-
-    while (m_xml.readNextStartElement()) {
-        if (m_xml.name() == "tag") {
-            readTag();
-        } else {
-            m_xml.skipCurrentElement();
-        }
-    }
-}
-
-void NoteReader::readTag()
-{
-    Q_ASSERT(m_xml.isStartElement() && m_xml.name() == "tag");
-    m_tags << m_xml.readElementText();
 }
 
 void NoteReader::readBody()
 {
     Q_ASSERT(m_xml.isStartElement() && m_xml.name() == "body");
 
-    bool isFirstBlock = true;
     while (m_xml.readNextStartElement()) {
         if (m_xml.name() == "paragraph") {
-            if (!isFirstBlock) {
-                QTextBlockFormat blockFormat;
-                blockFormat.setIndent(0);
-                m_textCursor->insertBlock(blockFormat);
-            }
             readParagraph();
-            isFirstBlock = false;
         } else if (m_xml.name() == "list") {
             readList();
         } else {
@@ -142,7 +102,9 @@ void NoteReader::readParagraph()
 
     while (m_xml.readNextStartElement()) {
         if (m_xml.name() == "text") {
-            readText();
+            Paragraph paragraph;
+            readText(&paragraph);
+            m_document.body.append(paragraph);
         } else {
             m_xml.skipCurrentElement();
         }
@@ -159,97 +121,78 @@ void NoteReader::readList()
             if (m_xml.attributes().hasAttribute("indent")) {
                 indentLevel = m_xml.attributes().value("indent").toString().toInt();
             }
-            QTextListFormat::Style listStyle;
-            switch (indentLevel % 3) {
-                case 1:
-                    listStyle = QTextListFormat::ListDisc;
-                    break;
-                case 2:
-                    listStyle = QTextListFormat::ListSquare;
-                    break;
-                default:  // case 0:
-                    listStyle = QTextListFormat::ListCircle;
-                    break;
-            }
+            Paragraph paragraph;
+            paragraph.indentLevel = indentLevel;
 
-            QTextListFormat listFormat;
-            listFormat.setIndent(indentLevel);
-            listFormat.setStyle(listStyle);
-            m_textCursor->insertList(listFormat);
-            readItem();
+            readItem(&paragraph);
+            m_document.body.append(paragraph);
         } else {
             m_xml.skipCurrentElement();
         }
     }
 }
 
-void NoteReader::readItem()
+void NoteReader::readItem(Paragraph *list)
 {
     Q_ASSERT(m_xml.isStartElement() && m_xml.name() == "item");
 
     while (m_xml.readNextStartElement()) {
         if (m_xml.name() == "text") {
-            readText();
+            readText(list);
         } else {
             m_xml.skipCurrentElement();
         }
     }
 }
 
-void NoteReader::readText()
+void NoteReader::readText(Paragraph *paragraph)
 {
     Q_ASSERT(m_xml.isStartElement() && m_xml.name() == "text");
 
+    Fragment fragment;
+
     QXmlStreamAttributes attributes = m_xml.attributes();
-    QTextCharFormat charFormat;
 
     if (attributes.hasAttribute("bold")) {
-        charFormat.setFontWeight(QFont::Bold);
+        fragment.bold = true;
     }
 
     if (attributes.hasAttribute("italic")) {
-        charFormat.setFontItalic(true);
+        fragment.italic = true;
     }
 
     if (attributes.hasAttribute("strikethrough")) {
-        charFormat.setFontStrikeOut(true);
+        fragment.strikeThrough = true;
     }
 
     if (attributes.hasAttribute("size")) {
         QStringRef size = attributes.value("size");
         if (size == "small") {
-            charFormat.setFontPointSize(Settings::smallFont().pointSize());
+            fragment.fontSize = Fragment::SMALL;
         } else if (size == "large") {
-            charFormat.setFontPointSize(Settings::largeFont().pointSize());
+            fragment.fontSize = Fragment::LARGE;
         } else if (size == "huge") {
-            charFormat.setFontPointSize(Settings::hugeFont().pointSize());
+            fragment.fontSize = Fragment::HUGE;
         } else {
-            charFormat.setFontPointSize(Settings::normalFont().pointSize());
+            fragment.fontSize = Fragment::NORMAL;
         }
     } else {
-        charFormat.setFontPointSize(Settings::normalFont().pointSize());
+            fragment.fontSize = Fragment::NORMAL;
     }
 
     if (attributes.hasAttribute("highlight")) {
-        charFormat.setBackground(Qt::yellow);
-    } else {
-        charFormat.setBackground(KColorScheme(QPalette::Active, KColorScheme::View).background().color());
+        fragment.highlight = true;
     }
 
     if (attributes.hasAttribute("uri")) {
-        charFormat.setAnchor(true);
-        charFormat.setAnchorHref(attributes.value("uri").toString());
-        charFormat.setUnderlineStyle(QTextCharFormat::SingleUnderline);
-        charFormat.setUnderlineColor(Qt::blue);
-        charFormat.setForeground(Qt::blue);
+        fragment.anchorReference = attributes.value("uri").toString();
     }
 
     QString text = m_xml.readElementText();
     if (!text.isEmpty()) {
-        m_textCursor->insertText(text, charFormat);
-    } else {
-        m_textCursor->setBlockCharFormat(charFormat);
+        fragment.text = text;
     }
+    paragraph->fragments.append(fragment);
 }
 
 bool NoteReader::validateNote(QIODevice *file)
