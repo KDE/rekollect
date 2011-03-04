@@ -73,8 +73,7 @@ Note* NoteFactory::loadNote(const QString& fileName)
     Document document = reader.read(&file);
     if (!document.isEmpty()) {
         QTextCursor noteTextCursor(note);
-        NoteParser parser(document, &noteTextCursor);
-        parser.parse();
+        documentToNote(document, &noteTextCursor);
     }
 
     return note;

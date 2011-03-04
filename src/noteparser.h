@@ -23,20 +23,8 @@
 
 #include "note/document.h"
 
-#include <QtCore/QObject>
-#include <QtGui/QTextCursor>
+class QTextCursor;
 
-
-class NoteParser : public QObject
-{
-    Q_OBJECT
-public:
-    NoteParser(const Document &document, QTextCursor *textCursor);
-    bool parse();
-
-private:
-    const Document &m_document;
-    QTextCursor *m_textCursor;
-};
+bool documentToNote(const Document &document, QTextCursor *textCursor);
 
 #endif // NOTEPARSER_H

@@ -21,24 +21,21 @@
 #include "noteparser.h"
 #include "settings.h"
 
+#include <QtGui/QTextCursor>
+#include <QtGui/QTextFrame>
 #include <QtGui/QFont>
 
 #include <KColorScheme>
 
-NoteParser::NoteParser(const Document &document, QTextCursor *textCursor)
-: QObject(), m_document(document), m_textCursor(textCursor)
-{
-}
-
-bool NoteParser::parse()
+bool documentToNote(const Document &document, QTextCursor *textCursor)
 {
     bool isFirstBlock = true;
-    foreach (Paragraph paragraph, m_document.body) {
+    foreach (Paragraph paragraph, document.body) {
         if (!isFirstBlock) {
             if (paragraph.indentLevel == 0) {
                 QTextBlockFormat blockFormat;
                 blockFormat.setIndent(0);
-                m_textCursor->insertBlock(blockFormat);
+                textCursor->insertBlock(blockFormat);
             } else {
                 QTextListFormat::Style listStyle;
                 switch (paragraph.indentLevel % 3) {
@@ -56,7 +53,7 @@ bool NoteParser::parse()
                 QTextListFormat listFormat;
                 listFormat.setIndent(paragraph.indentLevel);
                 listFormat.setStyle(listStyle);
-                m_textCursor->insertList(listFormat);
+                textCursor->insertList(listFormat);
             }
         }
         foreach (Fragment fragment, paragraph.fragments) {
@@ -107,9 +104,9 @@ bool NoteParser::parse()
             }
 
             if (!fragment.text.isEmpty()) {
-                m_textCursor->insertText(fragment.text, charFormat);
+                textCursor->insertText(fragment.text, charFormat);
             } else {
-                m_textCursor->setBlockCharFormat(charFormat);
+                textCursor->setBlockCharFormat(charFormat);
             }
         }
         isFirstBlock = false;
