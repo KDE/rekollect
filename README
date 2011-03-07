@@ -1,6 +1,10 @@
 Rekollect - A note taking and note management application
 
 -- CHANGES ------------------------------------------------
+v0.4.0
+* Added support to export or copy to the clipboard the contents of the note in Textile format
+* Added a configuration option to select the fonts associated with each font size
+
 v0.3.3
 * Improved spacing between lines of space for better readability
 * Double clicking a multi-word link will now select the whole link instead of just the current word
