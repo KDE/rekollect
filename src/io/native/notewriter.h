@@ -30,10 +30,6 @@
 class Document;
 class Paragraph;
 class Fragment;
-class QTextFrame;
-class QTextBlock;
-class QTextList;
-class QTextFragment;
 
 class KDE_EXPORT NoteWriter : public AbstractWriter
 {

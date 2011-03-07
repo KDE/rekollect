@@ -22,8 +22,6 @@
 #include "../../note/document.h"
 #include "../../note/paragraph.h"
 
-#include <QtGui/QTextFrame>
-
 #include <KLocalizedString>
 
 NoteWriter::NoteWriter() : AbstractWriter()

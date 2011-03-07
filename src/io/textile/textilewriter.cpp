@@ -19,125 +19,113 @@
 */
 
 #include "textilewriter.h"
-
-#include <QtGui/QTextFrame>
-#include <QtGui/QTextList>
+#include "../../note/document.h"
+#include "../../note/paragraph.h"
 
 #include <KLocalizedString>
 
-TextileWriter::TextileWriter(QTextFrame *textFrame, QSet<QString> tags)
-    : AbstractWriter(textFrame, tags)
+TextileWriter::TextileWriter()
+    : AbstractWriter()
 {
 }
 
-bool TextileWriter::writeFile(QIODevice *device)
+bool TextileWriter::writeFile(const Document &document, QIODevice *device)
 {
     m_output.setDevice(device);
-    writeNote();
+    writeNote(document);
     return true;
 }
 
-bool TextileWriter::write(QString *string)
+bool TextileWriter::write(const Document &document, QString *string)
 {
     m_output.setString(string);
-    writeNote();
+    writeNote(document);
     return true;
 }
 
-void TextileWriter::writeNote()
+void TextileWriter::writeNote(const Document &document)
 {
-    QTextFrame::iterator it;
-    for (it = m_textFrame->begin(); !(it.atEnd()); ++it) {
-
-        QTextBlock paragraph = it.currentBlock();
-
-        QTextList *list = paragraph.textList();
-        if (list == 0) {
+    foreach (Paragraph paragraph, document.body) {
+        if (paragraph.indentLevel == 0) {
             writeParagraph(paragraph);
         } else {
-            writeItem(paragraph, list);
+            writeItem(paragraph);
         }
     }
 }
 
-void TextileWriter::writeParagraph(const QTextBlock &paragraph)
+void TextileWriter::writeParagraph(const Paragraph &paragraph)
 {
     processTexts(paragraph);
 }
 
-void TextileWriter::writeItem(const QTextBlock &item, QTextList *list)
+void TextileWriter::writeItem(const Paragraph &paragraph)
 {
-    QString list_bullets(list->format().indent(), '*');
+    QString list_bullets(paragraph.indentLevel, '*');
     m_output << list_bullets << ' ';
-    processTexts(item);
+    processTexts(paragraph);
 }
 
-void TextileWriter::writeText(const QTextFragment &fragment, bool atBlockStart)
+void TextileWriter::writeText(const Fragment &fragment, bool atBlockStart)
 {
-    QTextCharFormat format = fragment.charFormat();
-
     // Textile does not support text size changes in the middle of a block of text
     if (atBlockStart) {
-//         if (format.fontPointSize() == Settings::largeFont().pointSize()) {
-//             m_output << "h2. ";
-//         } else if (format.fontPointSize() == Settings::hugeFont().pointSize()) {
-//             m_output << "h1. ";
-//         }
+        if (fragment.fontSize == Fragment::LARGE) {
+            m_output << "h2. ";
+        } else if (fragment.fontSize == Fragment::HUGE) {
+            m_output << "h1. ";
+        }
     }
 
-    if (format.fontWeight() == QFont::Bold) {
+    if (fragment.bold) {
         m_output << "*";
     }
 
-    if (format.fontItalic() == true) {
+    if (fragment.italic) {
         m_output << "_";
     }
 
-    if (format.fontStrikeOut() == true) {
+    if (fragment.strikeThrough) {
         m_output << "-";
     }
 
-    if (format.isAnchor()) {
-        if (format.anchorHref().startsWith("rekollect:")) {
+    if (!fragment.anchorReference.isEmpty()) {
+        if (fragment.anchorReference.startsWith("rekollect:")) {
             m_output << "[[";
         } else {
             m_output << '"';
         }
     }
 
-    m_output << fragment.text();
+    m_output << fragment.text;
 
-    if (format.isAnchor()) {
-        if (format.anchorHref().startsWith("rekollect:")) {
+    if (!fragment.anchorReference.isEmpty()) {
+        if (fragment.anchorReference.startsWith("rekollect:")) {
             m_output << "]]";
         } else {
-            m_output << "\":" << format.anchorHref() << ' ';
+            m_output << "\":" << fragment.anchorReference << ' ';
         }
     }
 
-    if (format.fontStrikeOut() == true) {
+    if (fragment.strikeThrough) {
         m_output << "-";
     }
 
-    if (format.fontItalic() == true) {
+    if (fragment.italic) {
         m_output << "_";
     }
 
-    if (format.fontWeight() == QFont::Bold) {
+    if (fragment.bold) {
         m_output << "*";
     }
 }
 
-void TextileWriter::processTexts(const QTextBlock &texts)
+void TextileWriter::processTexts(const Paragraph &paragraph)
 {
-    if (texts.length() > 1) {
-        QTextBlock::iterator it;
+    if (paragraph.fragments.length() > 0) {
         bool atBlockStart = true;
-        for (it = texts.begin(); !(it.atEnd()); ++it) {
-            QTextFragment currentText = it.fragment();
-            if (currentText.isValid()) {
-                writeText(currentText, atBlockStart);
-            }
+        foreach (Fragment fragment, paragraph.fragments) {
+            writeText(fragment, atBlockStart);
             atBlockStart = false;
         }
     }

@@ -437,8 +437,9 @@ void NoteWindow::exportAsTextile()
         KSaveFile saveFile(saveFileUrl.path());
         saveFile.open();
 
-        TextileWriter writer(note->rootFrame());
-        if (!writer.writeFile(&saveFile)) {
+        Document document = noteToDocument(note->rootFrame());
+        TextileWriter writer;
+        if (!writer.writeFile(document, &saveFile)) {
             KMessageBox::error(0,
                             i18nc("@info Error message", "An error occurred saving the file."),
                             i18nc("@title:window", "Save Error"));
@@ -460,8 +461,9 @@ void NoteWindow::copyAsTextile()
     Note *note = editor()->document();
     QString textileCopy;
 
-    TextileWriter writer(note->rootFrame());
-    writer.write(&textileCopy);
+    Document document = noteToDocument(note->rootFrame());
+    TextileWriter writer;
+    writer.write(document, &textileCopy);
 
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setText(textileCopy);

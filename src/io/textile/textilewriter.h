@@ -27,27 +27,26 @@
 
 #include <kdemacros.h>
 
-class QTextFrame;
-class QTextBlock;
-class QTextList;
-class QTextFragment;
+class Document;
+class Paragraph;
+class Fragment;
 
 class KDE_EXPORT TextileWriter : public AbstractWriter
 {
 public:
-    explicit TextileWriter(QTextFrame *textFrame, QSet<QString> tags = QSet<QString>());
+    explicit TextileWriter();
     ~TextileWriter() {}
 
-    bool writeFile(QIODevice *device);
-    bool write(QString *string);
+    bool writeFile(const Document &document, QIODevice *device);
+    bool write(const Document &document, QString *string);
 
 private:
-    void writeNote();
-    void writeParagraph(const QTextBlock &paragraph);
-    void writeItem(const QTextBlock &item, QTextList *list);
-    void writeText(const QTextFragment &fragment, bool atBlockStart);
+    void writeNote(const Document &document);
+    void writeParagraph(const Paragraph &paragraph);
+    void writeItem(const Paragraph &item);
+    void writeText(const Fragment &fragment, bool atBlockStart);
 
-    void processTexts(const QTextBlock &texts);
+    void processTexts(const Paragraph &paragraph);
 
     QTextStream m_output;
 };
