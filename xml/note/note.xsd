@@ -56,22 +56,9 @@
         </xs:choice>
     </xs:complexType>
 
-    <xs:complexType name="tagtype">
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="tag" type="xs:string"/>
-        </xs:choice>
-    </xs:complexType>
-
-    <xs:complexType name="metadatatype">
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element name="tags" type="tagtype"/>
-        </xs:choice>
-    </xs:complexType>
-
     <xs:element name="note">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="metadata" type="metadatatype"/>
                 <xs:element name="body" type="bodytype"/>
             </xs:sequence>
             <xs:attribute name="version" type="xs:positiveInteger" use="required"/>
