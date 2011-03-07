@@ -288,7 +288,6 @@ void NoteBrowserWindow::reloadNoteDetails()
 {
     m_noteCollection->clear();
     loadNoteDetails(m_noteCollection);
-    m_windowCollection->updateOpenWindows();
 }
 
 void NoteBrowserWindow::loadNoteDetails(NoteCollection *collection)
