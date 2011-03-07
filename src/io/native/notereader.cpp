@@ -31,6 +31,7 @@
 #include <KLocalizedString>
 #include <KColorScheme>
 #include <KStandardDirs>
+#include <KFileItem>
 
 
 
@@ -58,6 +59,35 @@ Document NoteReader::read(QIODevice *device)
     } else {
         return Document();
     }
+}
+
+MetaData NoteReader::readMetaData(QIODevice *device)
+{
+    MetaData metaData;
+    if (!validateNote(device)) {
+        return metaData;
+    }
+
+    m_xml.setDevice(device);
+    if (m_xml.readNextStartElement()) {
+        if (m_xml.name() == "note" && m_xml.attributes().value("version") == "1") {
+            do {
+                m_xml.readNextStartElement();
+            } while (m_xml.name() != "text");
+            metaData.documentName = m_xml.readElementText();
+
+            QFile *file = qobject_cast<QFile *>(device);
+            if (file) {
+                KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(file->fileName()));
+                metaData.fileName = file->fileName();
+                metaData.modificationTime = item.time(KFileItem::ModificationTime);
+            }
+        } else {
+            m_xml.raiseError(i18nc("@info Incorrect file type error", "The file is not a Rekollect Note version 1 file"));
+        }
+    }
+
+    return metaData;
 }
 
 QString NoteReader::errorString() const

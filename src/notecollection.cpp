@@ -18,6 +18,7 @@
 
 */
 #include "notecollection.h"
+#include "note/metadata.h"
 #include "note.h"
 #include "datetimeitem.h"
 
@@ -47,6 +48,17 @@ void NoteCollection::addNote(Note *note)
     newRow << documentNameItem << modificationTimeItem << fileNameItem;
     appendRow(newRow);
     emit noteAdded(note->fileName(), note->documentName());
+}
+
+void NoteCollection::addNote(const MetaData &metaData)
+{
+    QStandardItem *documentNameItem = new QStandardItem(metaData.documentName);
+    QStandardItem *fileNameItem = new QStandardItem(metaData.fileName);
+    DateTimeItem *modificationTimeItem = new DateTimeItem(metaData.modificationTime.dateTime());
+    QList<QStandardItem *> newRow;
+    newRow << documentNameItem << modificationTimeItem << fileNameItem;
+    appendRow(newRow);
+    emit noteAdded(metaData.fileName, metaData.documentName);
 }
 
 bool NoteCollection::noteExists(const QString& fileName)

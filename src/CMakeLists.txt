@@ -16,6 +16,7 @@ set(rekollect_SRCS
    note/document.cpp
    note/paragraph.cpp
    note/fragment.cpp
+   note/metadata.cpp
 
 )
 

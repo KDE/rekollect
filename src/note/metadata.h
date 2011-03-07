@@ -1,6 +1,6 @@
 /*
     Rekollect: A note taking application
-    Copyright (C) 2010  Jason Jackson <jacksonje@gmail.com>
+    Copyright (C) 2011  Jason Jackson <jacksonje@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -18,31 +18,23 @@
 
 */
 
-#ifndef NOTEFACTORY_H
-#define NOTEFACTORY_H
+#ifndef METADATA_H
+#define METADATA_H
 
-class QString;
-class Note;
+#include <QtCore/QObject>
+#include <KDateTime>
 
-#include "note/metadata.h"
 
-class NoteFactory
+class MetaData : public QObject
 {
+    Q_OBJECT
 public:
-    static Note *createNewNote(const QString &newNoteName);
-    static Note *openExistingNote(const QString &fileName);
-    static MetaData noteMetaData(const QString &fileName);
+    MetaData() {}
+    MetaData(const MetaData &metaData);
 
-private:
-    static Note *loadNote(const QString &fileName);
-
-    static int nextNewNoteNumber();
-    static int loadNextNewNoteNumber();
-    static void storeNextNewNoteNumber(int nextNumber);
-
-    static QString createFileName();
-
-    static int m_nextNewNoteNumber;
+    QString documentName;
+    QString fileName;
+    KDateTime modificationTime;
 };
 
-#endif // NOTEFACTORY_H
+#endif // METADATA_H

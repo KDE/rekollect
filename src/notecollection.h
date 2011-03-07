@@ -23,6 +23,7 @@
 #include <QtGui/QStandardItemModel>
 
 class Note;
+class MetaData;
 
 class QDateTime;
 
@@ -37,6 +38,7 @@ public:
     QString fileNameAt(const QModelIndex &index) const;
 
     void addNote(Note *note);
+    void addNote(const MetaData &metaData);
     bool noteExists(const QString &fileName);
 
     int columnCount(const QModelIndex &parent = QModelIndex()) const;

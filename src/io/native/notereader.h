@@ -24,6 +24,7 @@
 #include "../abstractreader.h"
 #include "../../note/document.h"
 #include "../../note/paragraph.h"
+#include "../../note/metadata.h"
 
 #include <QtCore/QXmlStreamReader>
 
@@ -39,6 +40,7 @@ public:
     ~NoteReader() {}
 
     Document read(QIODevice *device);
+    MetaData readMetaData(QIODevice *device);
     QString errorString() const;
 
 private:
