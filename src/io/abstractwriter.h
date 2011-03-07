@@ -24,18 +24,15 @@
 #include <QtCore/QSet>
 #include <QtCore/QString>
 
+class Document;
 class QIODevice;
 class QTextFrame;
 
 class AbstractWriter
 {
 public:
-    AbstractWriter(QTextFrame *textFrame) { m_textFrame = textFrame; }
-    virtual bool writeFile(QIODevice *device) = 0;
+    virtual bool writeFile(const Document &document, QIODevice *device) = 0;
     virtual ~AbstractWriter() {}
-
-protected:
-    QTextFrame *m_textFrame;
 };
 
 #endif // ABSTRACTWRITER_H

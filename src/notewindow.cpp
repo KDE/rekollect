@@ -22,6 +22,8 @@
 #include "note.h"
 #include "notefactory.h"
 #include "settings.h"
+#include "noteparser.h"
+#include "note/document.h"
 #include "io/native/notewriter.h"
 #include "io/textile/textilewriter.h"
 
@@ -101,8 +103,9 @@ void NoteWindow::saveNote()
     KSaveFile saveFile(note->fileName());
     saveFile.open();
 
-    NoteWriter writer(note->rootFrame());
-    if (!writer.writeFile(&saveFile)) {
+    Document document = noteToDocument(note->rootFrame());
+    NoteWriter writer;
+    if (!writer.writeFile(document, &saveFile)) {
         KMessageBox::error(0,
                            i18nc("@info Error message", "An error occurred saving the file."),
                            i18nc("@title:window", "Save Error"));

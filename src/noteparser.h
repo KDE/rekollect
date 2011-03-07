@@ -24,7 +24,9 @@
 #include "note/document.h"
 
 class QTextCursor;
+class QTextFrame;
 
 bool documentToNote(const Document &document, QTextCursor *textCursor);
+Document noteToDocument(QTextFrame *frame);
 
 #endif // NOTEPARSER_H

@@ -19,46 +19,41 @@
 */
 
 #include "notewriter.h"
+#include "../../note/document.h"
+#include "../../note/paragraph.h"
 
 #include <QtGui/QTextFrame>
-#include <QtGui/QTextList>
 
 #include <KLocalizedString>
 
-NoteWriter::NoteWriter(QTextFrame *textFrame)
-    : AbstractWriter(textFrame)
+NoteWriter::NoteWriter() : AbstractWriter()
 {
     m_xml.setAutoFormatting(true);
 }
 
-bool NoteWriter::writeFile(QIODevice *device)
+bool NoteWriter::writeFile(const Document &document, QIODevice *device)
 {
     m_xml.setDevice(device);
     m_xml.writeStartDocument();
-    writeNote();
+    writeNote(document);
     return true;
 }
 
-void NoteWriter::writeNote()
+void NoteWriter::writeNote(const Document &document)
 {
     m_xml.writeStartElement("note");
     m_xml.writeAttribute("version", "1");
-    writeBody();
+    writeBody(document);
     m_xml.writeEndElement();
     m_xml.writeEndDocument();
 }
 
-void NoteWriter::writeBody()
+void NoteWriter::writeBody(const Document &document)
 {
     m_xml.writeStartElement("body");
-    QTextFrame::iterator it;
     bool inList = false;
-    for (it = m_textFrame->begin(); !(it.atEnd()); ++it) {
-
-        QTextBlock paragraph = it.currentBlock();
-
-        QTextList *list = paragraph.textList();
-        if (list == 0) {
+    foreach (Paragraph paragraph, document.body) {
+        if (paragraph.indentLevel == 0) {
             if (inList) {
                 m_xml.writeEndElement();
                 inList = false;
@@ -69,76 +64,79 @@ void NoteWriter::writeBody()
                 m_xml.writeStartElement("list");
             }
             inList = true;
-            writeItem(paragraph, list);
+            writeItem(paragraph);
         }
     }
     m_xml.writeEndElement();
 }
 
-void NoteWriter::writeParagraph(const QTextBlock &paragraph)
+void NoteWriter::writeParagraph(const Paragraph &paragraph)
 {
     m_xml.writeStartElement("paragraph");
     processTexts(paragraph);
     m_xml.writeEndElement();
 }
 
-void NoteWriter::writeItem(const QTextBlock &item, QTextList *list)
+void NoteWriter::writeItem(const Paragraph &paragraph)
 {
     m_xml.writeStartElement("item");
-    m_xml.writeAttribute("indent", QString("%1").arg(list->format().indent()));
-    processTexts(item);
+    m_xml.writeAttribute("indent", QString("%1").arg(paragraph.indentLevel));
+    processTexts(paragraph);
     m_xml.writeEndElement();
 }
 
-void NoteWriter::writeText(const QTextFragment &fragment)
+void NoteWriter::writeText(const Fragment &fragment)
 {
     m_xml.writeStartElement("text");
-    QTextCharFormat format = fragment.charFormat();
-    if (format.fontWeight() == QFont::Bold) {
+    if (fragment.bold) {
         m_xml.writeAttribute("bold", "true");
     }
 
-    if (format.fontItalic() == true) {
+    if (fragment.italic) {
         m_xml.writeAttribute("italic", "true");
     }
 
-    if (format.fontStrikeOut() == true) {
+    if (fragment.strikeThrough) {
         m_xml.writeAttribute("strikethrough", "true");
     }
 
-//     if (format.fontPointSize() == Settings::smallFont().pointSize()) {
-//         m_xml.writeAttribute("size", "small");
-//     } else if (format.fontPointSize() == Settings::largeFont().pointSize()) {
-//         m_xml.writeAttribute("size", "large");
-//     } else if (format.fontPointSize() == Settings::hugeFont().pointSize()) {
-//         m_xml.writeAttribute("size", "huge");
-//     } else {
-//         m_xml.writeAttribute("size", "normal");
-//     }
+    switch (fragment.fontSize) {
+    case Fragment::SMALL:
+        m_xml.writeAttribute("size", "small");
+        break;
+    case Fragment::NORMAL:
+        m_xml.writeAttribute("size", "normal");
+        break;
+    case Fragment::LARGE:
+        m_xml.writeAttribute("size", "large");
+        break;
+    case Fragment::HUGE:
+        m_xml.writeAttribute("size", "huge");
+        break;
+    default:
+        m_xml.writeAttribute("size", "normal");
+        break;
+    }
 
-    if (format.background() == Qt::yellow) {
+    if (fragment.highlight) {
         m_xml.writeAttribute("highlight", "true");
     }
 
-    if (format.isAnchor()) {
-        m_xml.writeAttribute("uri", format.anchorHref());
+    if (!fragment.anchorReference.isEmpty()) {
+        m_xml.writeAttribute("uri", fragment.anchorReference);
     }
 
-    m_xml.writeCharacters(fragment.text());
+    m_xml.writeCharacters(fragment.text);
     m_xml.writeEndElement();
 }
 
-void NoteWriter::processTexts(const QTextBlock &texts)
+void NoteWriter::processTexts(const Paragraph &paragraph)
 {
-    if (texts.length() == 1) {
+    if (paragraph.fragments.length() == 0) {
         m_xml.writeEmptyElement("text");
     } else {
-        QTextBlock::iterator it;
-        for (it = texts.begin(); !(it.atEnd()); ++it) {
-            QTextFragment currentText = it.fragment();
-            if (currentText.isValid()) {
-                writeText(currentText);
-            }
+        foreach (Fragment fragment, paragraph.fragments) {
+            writeText(fragment);
         }
     }
 }

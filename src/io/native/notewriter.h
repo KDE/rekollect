@@ -27,6 +27,9 @@
 
 #include <kdemacros.h>
 
+class Document;
+class Paragraph;
+class Fragment;
 class QTextFrame;
 class QTextBlock;
 class QTextList;
@@ -35,19 +38,19 @@ class QTextFragment;
 class KDE_EXPORT NoteWriter : public AbstractWriter
 {
 public:
-    explicit NoteWriter(QTextFrame *textFrame);
-    ~NoteWriter() {}
+    NoteWriter();
+    virtual ~NoteWriter() {}
 
-    bool writeFile(QIODevice *device);
+    bool writeFile(const Document &document, QIODevice *device);
 
 private:
-    void writeNote();
-    void writeBody();
-    void writeParagraph(const QTextBlock &paragraph);
-    void writeItem(const QTextBlock &item, QTextList *list);
-    void writeText(const QTextFragment &fragment);
+    void writeNote(const Document &document);
+    void writeBody(const Document &document);
+    void writeParagraph(const Paragraph &paragraph);
+    void writeItem(const Paragraph &item);
+    void writeText(const Fragment &fragment);
 
-    void processTexts(const QTextBlock &texts);
+    void processTexts(const Paragraph &paragraph);
 
     QXmlStreamWriter m_xml;
 };

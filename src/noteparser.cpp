@@ -23,6 +23,7 @@
 
 #include <QtGui/QTextCursor>
 #include <QtGui/QTextFrame>
+#include <QtGui/QTextList>
 #include <QtGui/QFont>
 
 #include <KColorScheme>
@@ -113,4 +114,59 @@ bool documentToNote(const Document &document, QTextCursor *textCursor)
 
     }
     return false;
+}
+
+Document noteToDocument(QTextFrame *frame)
+{
+    Document document;
+
+    QTextFrame::iterator it;
+    for (it = frame->begin(); !(it.atEnd()); ++it) {
+        Paragraph paragraph;
+
+        QTextBlock block = it.currentBlock();
+        QTextList *list = block.textList();
+        if (list == 0) {
+            paragraph.indentLevel = 0;
+        } else {
+            paragraph.indentLevel = list->format().indent();
+        }
+
+        QTextBlock::iterator it;
+        for (it = block.begin(); !(it.atEnd()); ++it) {
+            Fragment fragment;
+
+            QTextFragment currentText = it.fragment();
+            if (currentText.isValid()) {
+                QTextCharFormat format = currentText.charFormat();
+                fragment.bold = (format.fontWeight() == QFont::Bold);
+                fragment.italic = format.fontItalic();
+                fragment.strikeThrough = format.fontStrikeOut();
+
+                if (format.fontPointSize() == Settings::smallFont().pointSize()) {
+                    fragment.fontSize = Fragment::SMALL;
+                } else if (format.fontPointSize() == Settings::normalFont().pointSize()) {
+                    fragment.fontSize = Fragment::NORMAL;
+                } else if (format.fontPointSize() == Settings::largeFont().pointSize()) {
+                    fragment.fontSize = Fragment::LARGE;
+                } else if (format.fontPointSize() == Settings::hugeFont().pointSize()) {
+                    fragment.fontSize = Fragment::HUGE;
+                } else {
+                    fragment.fontSize = Fragment::NORMAL;
+                }
+
+                fragment.highlight = (format.background() == Qt::yellow);
+
+                if (format.isAnchor()) {
+                    fragment.anchorReference = format.anchorHref();
+                }
+
+                fragment.text = currentText.text();
+                paragraph.fragments.append(fragment);
+            }
+        }
+
+        document.body.append(paragraph);
+    }
+    return document;
 }
