@@ -63,6 +63,9 @@ Note *NoteFactory::openExistingNote(const QString& fileName)
     return note;
 }
 
+/**
+ * Returns a pointer to a note on success and 0 on failure.
+ */
 Note* NoteFactory::loadNote(const QString& fileName)
 {
     Note *note = new Note(fileName);
@@ -74,6 +77,8 @@ Note* NoteFactory::loadNote(const QString& fileName)
     if (!document.isEmpty()) {
         QTextCursor noteTextCursor(note);
         documentToNote(document, &noteTextCursor);
+    } else {
+        return 0;
     }
 
     return note;
