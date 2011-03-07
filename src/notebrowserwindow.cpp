@@ -66,7 +66,8 @@ NoteBrowserWindow::NoteBrowserWindow(QWidget *parent) : KXmlGuiWindow(parent)
     setupWindow();
     setupActions();
     loadNoteDetails(m_noteCollection);
-    startDirWatch();
+    // Renable startDirWatch when https://bugs.kde.org/show_bug.cgi?id=267885 is fixed in 4.6 or later
+//     startDirWatch();
 }
 
 void NoteBrowserWindow::toggleBrowserWindow()
@@ -305,7 +306,7 @@ void NoteBrowserWindow::startDirWatch()
 {
     QStringList noteDirs = KGlobal::dirs()->findDirs("app_notes", QString());
     foreach (const QString &noteDir, noteDirs) {
-        m_dirWatch->addDir(noteDir);
+        m_dirWatch->addDir(noteDir, KDirWatch::WatchDirOnly);
     }
     connect(m_dirWatch, SIGNAL(dirty(QString)), this, SLOT(reloadNoteDetails()));
 }
