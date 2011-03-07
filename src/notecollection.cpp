@@ -69,6 +69,11 @@ QVariant NoteCollection::headerData(int section, Qt::Orientation orientation, in
     }
 }
 
+void NoteCollection::clear()
+{
+    removeRows(0, rowCount());
+}
+
 void NoteCollection::removeNote(const QString &fileName)
 {
     QStandardItem *item = itemFromFileName(fileName);

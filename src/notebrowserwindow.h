@@ -42,6 +42,7 @@ class QCloseEvent;
 
 class KAction;
 class KJob;
+class KDirWatch;
 
 class NoteBrowserWindow : public KXmlGuiWindow
 {
@@ -72,9 +73,11 @@ private slots:
     void editLink(NoteEditor *editor);
     void showPreferences();
     void globalSettingsChanged(int category);
+    void reloadNoteDetails();
 
 private:
     void loadNoteDetails(NoteCollection *collection);
+    void startDirWatch();
     void connectWindowSignals(NoteWindow *window);
     void connectClickSignals();
 
@@ -90,6 +93,8 @@ private:
 
     Ui::GeneralSettingsWidget *ui_generalSettings;
     Ui::DisplaySettingsWidget *ui_displaySettings;
+
+    KDirWatch *m_dirWatch;
 
 };
 

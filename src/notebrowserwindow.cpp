@@ -54,6 +54,7 @@
 #include <kio/scheduler.h>
 #include <KSaveFile>
 #include <KConfigDialog>
+#include <KDirWatch>
 
 NoteBrowserWindow::NoteBrowserWindow(QWidget *parent) : KXmlGuiWindow(parent)
 {
@@ -61,9 +62,11 @@ NoteBrowserWindow::NoteBrowserWindow(QWidget *parent) : KXmlGuiWindow(parent)
     setWindowIcon(KIcon("rekollect"));
     m_noteCollection = new NoteCollection(this);
     m_windowCollection = new WindowCollection(this);
+    m_dirWatch = new KDirWatch(this);
     setupWindow();
     setupActions();
     loadNoteDetails(m_noteCollection);
+    startDirWatch();
 }
 
 void NoteBrowserWindow::toggleBrowserWindow()
@@ -281,6 +284,13 @@ void NoteBrowserWindow::globalSettingsChanged(int category)
     connectClickSignals();
 }
 
+void NoteBrowserWindow::reloadNoteDetails()
+{
+    m_noteCollection->clear();
+    loadNoteDetails(m_noteCollection);
+    m_windowCollection->updateOpenWindows();
+}
+
 void NoteBrowserWindow::loadNoteDetails(NoteCollection *collection)
 {
     QStringList noteList = KGlobal::dirs()->findAllResources("app_notes", QString());
@@ -290,6 +300,15 @@ void NoteBrowserWindow::loadNoteDetails(NoteCollection *collection)
             collection->addNote(note);
         }
     }
+}
+
+void NoteBrowserWindow::startDirWatch()
+{
+    QStringList noteDirs = KGlobal::dirs()->findDirs("app_notes", QString());
+    foreach (const QString &noteDir, noteDirs) {
+        m_dirWatch->addDir(noteDir);
+    }
+    connect(m_dirWatch, SIGNAL(dirty(QString)), this, SLOT(reloadNoteDetails()));
 }
 
 void NoteBrowserWindow::connectWindowSignals(NoteWindow *window)

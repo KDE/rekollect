@@ -42,6 +42,8 @@ public:
     int columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
+    void clear();
+
 public slots:
     void removeNote(const QString &fileName);
     void documentNameChanged(const QString &fileName, const QString &documentName);
