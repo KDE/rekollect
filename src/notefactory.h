@@ -24,14 +24,13 @@
 class QString;
 class Note;
 
-#include "note/metadata.h"
+#include "metadata/metadata.h"
 
 class NoteFactory
 {
 public:
     static Note *createNewNote(const QString &newNoteName);
     static Note *openExistingNote(const QString &fileName);
-    static MetaData noteMetaData(const QString &fileName);
 
 private:
     static Note *loadNote(const QString &fileName);

@@ -295,7 +295,7 @@ void NoteBrowserWindow::loadNoteDetails(NoteCollection *collection)
 {
     QStringList noteList = KGlobal::dirs()->findAllResources("app_notes", QString());
     foreach (const QString &notePath, noteList) {
-        MetaData metaData = NoteFactory::noteMetaData(notePath);
+        MetaData metaData = noteMetaData(notePath);
         if (!metaData.documentName.isEmpty()) {
             collection->addNote(metaData);
         }

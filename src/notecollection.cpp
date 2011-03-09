@@ -18,7 +18,7 @@
 
 */
 #include "notecollection.h"
-#include "note/metadata.h"
+#include "metadata/metadata.h"
 #include "note.h"
 #include "datetimeitem.h"
 

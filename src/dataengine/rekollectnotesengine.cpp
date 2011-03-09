@@ -92,31 +92,6 @@ void RekollectNotesEngine::startDirWatch()
     connect(m_dirWatch, SIGNAL(dirty(QString)), this, SLOT(reloadNoteMetaData()));
 }
 
-MetaData RekollectNotesEngine::noteMetaData(const QString& fileName)
-{
-    QFile file(fileName);
-    file.open(QIODevice::ReadOnly);
-
-    MetaData metaData;
-
-    m_xml.setDevice(&file);
-    if (m_xml.readNextStartElement()) {
-        if (m_xml.name() == "note" && m_xml.attributes().value("version") == "1") {
-            do {
-                m_xml.readNextStartElement();
-            } while (m_xml.name() != "text");
-            metaData.documentName = m_xml.readElementText();
-            KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(file.fileName()));
-            metaData.fileName = file.fileName();
-            metaData.modificationTime = item.time(KFileItem::ModificationTime);
-        } else {
-            m_xml.raiseError(i18nc("@info Incorrect file type error", "The file is not a Rekollect Note version 1 file"));
-        }
-    }
-
-    return metaData;
-}
-
 void RekollectNotesEngine::reloadNoteMetaData()
 {
     m_noteMetaData.clear();

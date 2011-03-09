@@ -20,6 +20,12 @@
 
 #include "metadata.h"
 
+#include <QtCore/QFile>
+#include <QtCore/QXmlStreamReader>
+
+#include <KFileItem>
+#include <KLocalizedString>
+
 MetaData::MetaData(const MetaData &metaData): QObject()
 {
     fileName = metaData.fileName;
@@ -36,4 +42,30 @@ MetaData &MetaData::MetaData::operator=(const MetaData &metaData)
     documentName = metaData.documentName;
     modificationTime = metaData.modificationTime;
     return *this;
+}
+
+MetaData noteMetaData(const QString &fileName)
+{
+    QFile file(fileName);
+    file.open(QIODevice::ReadOnly);
+
+    MetaData metaData;
+
+    QXmlStreamReader xml;
+    xml.setDevice(&file);
+    if (xml.readNextStartElement()) {
+        if (xml.name() == "note" && xml.attributes().value("version") == "1") {
+            do {
+                xml.readNextStartElement();
+            } while (xml.name() != "text");
+            metaData.documentName = xml.readElementText();
+            KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(file.fileName()));
+            metaData.fileName = file.fileName();
+            metaData.modificationTime = item.time(KFileItem::ModificationTime);
+        } else {
+            xml.raiseError(i18nc("@info Incorrect file type error", "The file is not a Rekollect Note version 1 file"));
+        }
+    }
+
+    return metaData;
 }

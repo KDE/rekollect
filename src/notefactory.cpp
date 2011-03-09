@@ -22,7 +22,7 @@
 #include "note.h"
 #include "noteparser.h"
 #include "note/document.h"
-#include "note/metadata.h"
+#include "metadata/metadata.h"
 #include "io/native/notereader.h"
 
 #include <QtGui/QTextCursor>
@@ -62,16 +62,6 @@ Note *NoteFactory::openExistingNote(const QString& fileName)
         note->updateDocumentName();
     }
     return note;
-}
-
-MetaData NoteFactory::noteMetaData(const QString &fileName)
-{
-    QFile file(fileName);
-    file.open(QIODevice::ReadOnly);
-
-    NoteReader reader;
-    MetaData metaData = reader.readMetaData(&file);
-    return metaData;
 }
 
 /**

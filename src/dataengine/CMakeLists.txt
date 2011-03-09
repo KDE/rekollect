@@ -1,6 +1,6 @@
 set(rekollectnotes_engine_SRCS
     rekollectnotesengine.cpp
-    metadata.cpp
+    ../metadata/metadata.cpp
 )
 
 kde4_add_plugin(plasma_engine_rekollectnotes

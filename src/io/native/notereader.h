@@ -24,7 +24,7 @@
 #include "../abstractreader.h"
 #include "../../note/document.h"
 #include "../../note/paragraph.h"
-#include "../../note/metadata.h"
+#include "../../metadata/metadata.h"
 
 #include <QtCore/QXmlStreamReader>
 

@@ -21,7 +21,7 @@
 #ifndef REKOLLECTNOTESENGINE_H
 #define REKOLLECTNOTESENGINE_H
 
-#include "metadata.h"
+#include "../metadata/metadata.h"
 
 #include <QtCore/QXmlStreamReader>
 #include <Plasma/DataEngine>
@@ -44,7 +44,6 @@ protected:
 private:
     void loadNoteMetaData();
     void startDirWatch();
-    MetaData noteMetaData(const QString &fileName);
 
 private slots:
     void reloadNoteMetaData();

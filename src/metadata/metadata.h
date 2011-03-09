@@ -31,10 +31,13 @@ class MetaData : public QObject
 public:
     MetaData() {}
     MetaData(const MetaData &metaData);
+    MetaData &operator=(const MetaData &metaData);
 
     QString documentName;
     QString fileName;
     KDateTime modificationTime;
 };
+
+MetaData noteMetaData(const QString &fileName);
 
 #endif // METADATA_H
