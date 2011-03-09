@@ -48,3 +48,4 @@ install( FILES rekollectui.rc  DESTINATION  ${DATA_INSTALL_DIR}/rekollect )
 
 add_subdirectory(io)
 add_subdirectory(note)
+add_subdirectory(dataengine)
