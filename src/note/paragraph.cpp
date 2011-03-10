@@ -30,3 +30,13 @@ Paragraph::Paragraph(const Paragraph &paragraph): QObject()
     fragments = QList<Fragment>(paragraph.fragments);
     indentLevel = paragraph.indentLevel;
 }
+
+Paragraph &Paragraph::operator=(const Paragraph &paragraph)
+{
+    if (this == &paragraph) {
+        return *this;
+    }
+    fragments = QList<Fragment>(paragraph.fragments);
+    indentLevel = paragraph.indentLevel;
+    return *this;
+}

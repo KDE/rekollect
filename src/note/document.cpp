@@ -25,6 +25,15 @@ Document::Document(const Document &document): QObject()
     body = QList<Paragraph>(document.body);
 }
 
+Document &Document::operator=(const Document &document)
+{
+    if (this == &document) {
+        return *this;
+    }
+    body = document.body;
+    return *this;
+}
+
 bool Document::isEmpty()
 {
     if (body.count() == 0) {

@@ -39,3 +39,18 @@ Fragment::Fragment(const Fragment &fragment): QObject()
     anchorReference = fragment.anchorReference;
     text = fragment.text;
 }
+
+Fragment &Fragment::operator=(const Fragment &fragment)
+{
+    if (this == &fragment) {
+        return *this;
+    }
+    bold = fragment.bold;
+    italic = fragment.italic;
+    strikeThrough = fragment.strikeThrough;
+    highlight = fragment.highlight;
+    fontSize = fragment.fontSize;
+    anchorReference = fragment.anchorReference;
+    text = fragment.text;
+    return *this;
+}

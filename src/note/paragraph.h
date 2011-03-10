@@ -32,6 +32,7 @@ class Paragraph : public QObject
 public:
     Paragraph();
     Paragraph(const Paragraph &paragraph);
+    Paragraph &operator=(const Paragraph &paragraph);
 
     QList<Fragment> fragments;
     int indentLevel;
