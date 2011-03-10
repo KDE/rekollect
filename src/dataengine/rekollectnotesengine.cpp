@@ -40,7 +40,6 @@ QStringList RekollectNotesEngine::sources() const
     foreach (const MetaData metaData, m_noteMetaData) {
         sourcesList << metaData.fileName;
     }
-    sourcesList << "DEBUG";
     return sourcesList;
 }
 
