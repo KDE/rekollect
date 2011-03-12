@@ -1,10 +1,12 @@
 [Desktop Entry]
 Name=Rekollect Notes Engine
 Name[pt]=Motor de Notas do Rekollect
+Name[pt_BR]=Mecanismo de notas Rekollect
 Name[uk]=Рушій роботи з нотатками Rekollect
 Name[x-test]=xxRekollect Notes Enginexx
 Comment=Provides the metadata for all rekollect notes
 Comment[pt]=Fornece os meta-dados de todas as notas do Rekollect
+Comment[pt_BR]=Fornece os metadados de todas as notas do Rekollect
 Comment[uk]=Надає метадані щодо всіх нотаток rekollect
 Comment[x-test]=xxProvides the metadata for all rekollect notesxx
 Type=Service

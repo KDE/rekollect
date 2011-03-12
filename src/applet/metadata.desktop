@@ -1,6 +1,12 @@
 [Desktop Entry]
 Name=Rekollect Notes
+Name[pt]=Notas do Rekollect
+Name[uk]=Нотатки Rekollect
+Name[x-test]=xxRekollect Notesxx
 Comment=Displays a list of notes available in Rekollect
+Comment[pt]=Mostra uma lista com as notas disponíveis no Rekollect
+Comment[uk]=Показує список нотаток, що зберігаються у Rekollect
+Comment[x-test]=xxDisplays a list of notes available in Rekollectxx
 Icon=rekollect
 
 Type=Service
