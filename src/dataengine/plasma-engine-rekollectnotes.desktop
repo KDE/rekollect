@@ -13,7 +13,7 @@ Comment[uk]=Надає метадані щодо всіх нотаток rekolle
 Comment[x-test]=xxProvides the metadata for all rekollect notesxx
 Type=Service
 
-X-KDE-ServicesTypes=Plasma/DataEngine
+X-KDE-ServiceTypes=Plasma/DataEngine
 X-KDE-Library=plasma_engine_rekollectnotes
 X-Plasma-EngineName=rekollectnotes
 X-KDE-PluginInfo-Author=Jason Jackson
