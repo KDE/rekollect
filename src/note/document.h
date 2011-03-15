@@ -23,13 +23,11 @@
 
 #include "paragraph.h"
 
-#include <QtCore/QObject>
-#include <QtCore/QStringList>
+#include <QtCore/QList>
 
 
-class Document : public QObject
+class Document
 {
-    Q_OBJECT
 public:
     Document() {}
     Document(const Document &document);

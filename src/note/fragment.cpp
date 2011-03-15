@@ -29,7 +29,7 @@ Fragment::Fragment()
     fontSize = NORMAL;
 }
 
-Fragment::Fragment(const Fragment &fragment): QObject()
+Fragment::Fragment(const Fragment &fragment)
 {
     bold = fragment.bold;
     italic = fragment.italic;

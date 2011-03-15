@@ -20,7 +20,7 @@
 
 #include "document.h"
 
-Document::Document(const Document &document): QObject()
+Document::Document(const Document &document)
 {
     body = QList<Paragraph>(document.body);
 }

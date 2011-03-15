@@ -25,7 +25,7 @@ Paragraph::Paragraph() : indentLevel(0)
 
 }
 
-Paragraph::Paragraph(const Paragraph &paragraph): QObject()
+Paragraph::Paragraph(const Paragraph &paragraph)
 {
     fragments = QList<Fragment>(paragraph.fragments);
     indentLevel = paragraph.indentLevel;

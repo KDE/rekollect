@@ -21,12 +21,11 @@
 #ifndef FRAGMENT_H
 #define FRAGMENT_H
 
-#include <QObject>
+#include <QtCore/QString>
 
 
-class Fragment : public QObject
+class Fragment
 {
-    Q_OBJECT
 public:
     Fragment();
     Fragment(const Fragment &fragment);

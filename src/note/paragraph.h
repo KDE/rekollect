@@ -23,12 +23,10 @@
 
 #include "fragment.h"
 
-#include <QObject>
+#include <QtCore/QList>
 
-
-class Paragraph : public QObject
+class Paragraph
 {
-    Q_OBJECT
 public:
     Paragraph();
     Paragraph(const Paragraph &paragraph);
