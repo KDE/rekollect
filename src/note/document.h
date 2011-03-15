@@ -30,8 +30,6 @@ class Document
 {
 public:
     Document() {}
-    Document(const Document &document);
-    Document &operator=(const Document &document);
 
     QList<Paragraph> body;
     bool isEmpty();
