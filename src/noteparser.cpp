@@ -31,30 +31,51 @@
 bool documentToNote(const Document &document, QTextCursor *textCursor)
 {
     bool isFirstBlock = true;
+    int previousIndentLevel = 0;
+    QHash<int, QTextList *> indentMap;
     foreach (Paragraph paragraph, document.body) {
         if (!isFirstBlock) {
             if (paragraph.indentLevel == 0) {
                 QTextBlockFormat blockFormat;
                 blockFormat.setIndent(0);
                 textCursor->insertBlock(blockFormat);
+                previousIndentLevel = 0;
+                indentMap.clear();
             } else {
-                QTextListFormat::Style listStyle;
-                switch (paragraph.indentLevel % 3) {
-                case 1:
-                    listStyle = QTextListFormat::ListDisc;
-                    break;
-                case 2:
-                    listStyle = QTextListFormat::ListSquare;
-                    break;
-                default:  // case 0:
-                    listStyle = QTextListFormat::ListCircle;
-                    break;
-                }
+                if (paragraph.indentLevel != previousIndentLevel) {
 
-                QTextListFormat listFormat;
-                listFormat.setIndent(paragraph.indentLevel);
-                listFormat.setStyle(listStyle);
-                textCursor->insertList(listFormat);
+                    QTextListFormat::Style listStyle;
+                    switch (paragraph.indentLevel % 3) {
+                    case 1:
+                        listStyle = QTextListFormat::ListDisc;
+                        break;
+                    case 2:
+                        listStyle = QTextListFormat::ListSquare;
+                        break;
+                    default:  // case 0:
+                        listStyle = QTextListFormat::ListCircle;
+                        break;
+                    }
+
+                    QTextListFormat listFormat;
+                    listFormat.setIndent(paragraph.indentLevel);
+                    listFormat.setStyle(listStyle);
+                    if (paragraph.indentLevel > previousIndentLevel) {
+                        textCursor->insertList(listFormat);
+                        indentMap.insert(paragraph.indentLevel, textCursor->currentList());
+                    } else {
+                        if (indentMap.contains(paragraph.indentLevel)) {
+                            textCursor->insertBlock();
+                            indentMap.value(paragraph.indentLevel)->add(textCursor->block());
+                        } else {
+                            textCursor->insertList(listFormat);
+                            indentMap.insert(paragraph.indentLevel, textCursor->currentList());
+                        }
+                    }
+                    previousIndentLevel = paragraph.indentLevel;
+                } else {
+                    textCursor->insertBlock();
+                }
             }
         }
         foreach (Fragment fragment, paragraph.fragments) {
