@@ -34,6 +34,7 @@
 #include <QtGui/QPrintDialog>
 #include <QtGui/QClipboard>
 #include <QtGui/QApplication>
+#include <QtCore/QTextStream>
 
 #include <KActionMenu>
 #include <KToolBar>
@@ -412,16 +413,31 @@ void NoteWindow::updateFormatMenu(const QTextCharFormat &charFormat)
 
 void NoteWindow::exportAsHtml()
 {
-    KUrl saveFile = KFileDialog::getSaveUrl(
-        KUrl("kfiledialog:///"), QString("text/html"), this,
+    Note *note = editor()->document();
+
+    KUrl saveFileUrl = KFileDialog::getSaveUrl(
+        KUrl("kfiledialog:///html/"+note->documentName()), QString("text/html"), this,
         i18nc("@title", "Select a destination directory")
     );
 
-    QByteArray htmlOutput;
-    htmlOutput.append(m_noteEditor->document()->toHtml().toUtf8());
+    if (!saveFileUrl.isEmpty()) {
+        KSaveFile saveFile(saveFileUrl.path());
+        saveFile.open();
 
-    KIO::StoredTransferJob *job = KIO::storedPut(htmlOutput, saveFile, -1, KIO::Overwrite);
-    connect(job, SIGNAL(result(KJob*)), SLOT(slotPutResult(KJob*)));
+        QTextStream output;
+        output.setDevice(&saveFile);
+
+        output << m_noteEditor->document()->toHtml();
+
+        bool isSuccessful = saveFile.finalize();
+        saveFile.close();
+
+        if (!isSuccessful) {
+            KMessageBox::error(0,
+                            i18nc("@info Error message", "An error occurred saving the file."),
+                            i18nc("@title:window", "Save Error"));
+        }
+    }
 }
 
 void NoteWindow::exportAsTextile()
