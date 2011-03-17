@@ -130,15 +130,15 @@ void NoteReader::readParagraph()
 {
     Q_ASSERT(m_xml.isStartElement() && m_xml.name() == "paragraph");
 
+    Paragraph paragraph;
     while (m_xml.readNextStartElement()) {
         if (m_xml.name() == "text") {
-            Paragraph paragraph;
             readText(&paragraph);
-            m_document.body.append(paragraph);
         } else {
             m_xml.skipCurrentElement();
         }
     }
+    m_document.body.append(paragraph);
 }
 
 void NoteReader::readList()
