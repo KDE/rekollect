@@ -1,11 +1,13 @@
 [Desktop Entry]
 Name=Rekollect Notes Engine
+Name[es]=Motor de notas de Rekollect
 Name[pt]=Motor de Notas do Rekollect
 Name[pt_BR]=Mecanismo de notas Rekollect
 Name[sv]=Rekollect anteckningsgränssnitt
 Name[uk]=Рушій роботи з нотатками Rekollect
 Name[x-test]=xxRekollect Notes Enginexx
 Comment=Provides the metadata for all rekollect notes
+Comment[es]=Proporciona metadatos para todas las notas de Rekollect
 Comment[pt]=Fornece os meta-dados de todas as notas do Rekollect
 Comment[pt_BR]=Fornece os metadados de todas as notas do Rekollect
 Comment[sv]=Tillhandahåller metadata för alla Rekollect anteckningar

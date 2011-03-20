@@ -1,11 +1,13 @@
 [Desktop Entry]
 Name=Rekollect Notes
+Name[es]=Notas de Rekollect
 Name[pt]=Notas do Rekollect
 Name[pt_BR]=Notas do Rekollect
 Name[sv]=Rekollect anteckningar
 Name[uk]=Нотатки Rekollect
 Name[x-test]=xxRekollect Notesxx
 Comment=Displays a list of notes available in Rekollect
+Comment[es]=Muestra una lista de las notas disponibles en Rekollect
 Comment[pt]=Mostra uma lista com as notas disponíveis no Rekollect
 Comment[pt_BR]=Mostra uma lista com as notas disponíveis no Rekollect
 Comment[sv]=Visar en lista med anteckningar tillgängliga i Rekollect
