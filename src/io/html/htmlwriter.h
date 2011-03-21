@@ -18,24 +18,39 @@
 
 */
 
-#ifndef DOCUMENT_H
-#define DOCUMENT_H
+#ifndef HTMLWRITER_H
+#define HTMLWRITER_H
 
-#include "paragraph.h"
+#include "../abstractwriter.h"
 
-#include <QtCore/QString>
-#include <QtCore/QList>
+#include <QtCore/QTextStream>
 
+#include <kdemacros.h>
 
-class Document
+class Document;
+class Paragraph;
+class Fragment;
+
+class KDE_EXPORT HTMLWriter : public AbstractWriter
 {
 public:
-    Document() {}
+    explicit HTMLWriter();
+    ~HTMLWriter() {}
 
-    QString name;
-    QList<Paragraph> body;
-    bool isEmpty();
+    bool writeFile(const Document &document, QIODevice *device);
+    bool write(const Document &document, QString *string);
 
+private:
+    void writeNote(const Document &document);
+    void writeParagraph(const Paragraph &paragraph);
+    void writeItem(const Paragraph &item);
+    void writeText(const Fragment &fragment);
+    void writeHeader(const QString &title);
+    void writeFooter();
+
+    void processTexts(const Paragraph &paragraph);
+
+    QTextStream m_output;
 };
 
-#endif // DOCUMENT_H
+#endif // HTMLWRITER_H

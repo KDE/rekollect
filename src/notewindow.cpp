@@ -26,6 +26,7 @@
 #include "note/document.h"
 #include "io/native/notewriter.h"
 #include "io/textile/textilewriter.h"
+#include "io/html/htmlwriter.h"
 
 #include <QtGui/QActionGroup>
 #include <QtCore/QSignalMapper>
@@ -424,10 +425,13 @@ void NoteWindow::exportAsHtml()
         KSaveFile saveFile(saveFileUrl.path());
         saveFile.open();
 
-        QTextStream output;
-        output.setDevice(&saveFile);
-
-        output << m_noteEditor->document()->toHtml();
+        Document document = noteToDocument(note->rootFrame());
+        HTMLWriter writer;
+        if (!writer.writeFile(document, &saveFile)) {
+            KMessageBox::error(0,
+                            i18nc("@info Error message", "An error occurred saving the file."),
+                            i18nc("@title:window", "Save Error"));
+        }
 
         bool isSuccessful = saveFile.finalize();
         saveFile.close();

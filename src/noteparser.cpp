@@ -141,6 +141,8 @@ Document noteToDocument(QTextFrame *frame)
 {
     Document document;
 
+    bool firstTime = true;
+
     QTextFrame::iterator it;
     for (it = frame->begin(); !(it.atEnd()); ++it) {
         Paragraph paragraph;
@@ -154,6 +156,7 @@ Document noteToDocument(QTextFrame *frame)
         }
 
         QTextBlock::iterator it;
+
         for (it = block.begin(); !(it.atEnd()); ++it) {
             Fragment fragment;
 
@@ -183,6 +186,10 @@ Document noteToDocument(QTextFrame *frame)
                 }
 
                 fragment.text = currentText.text();
+                if (firstTime) {
+                    document.name = fragment.text;
+                    firstTime = false;
+                }
                 paragraph.fragments.append(fragment);
             }
         }
