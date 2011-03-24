@@ -12,6 +12,7 @@ Item {
         id: rekollectNotesEngineSource
         engine: "rekollectnotes"
         interval: 0
+        connectedSources: sources
 
         onDataChanged: {
         }
