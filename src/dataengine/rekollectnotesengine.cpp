@@ -62,8 +62,8 @@ bool RekollectNotesEngine::sourceRequestEvent(const QString &name)
 bool RekollectNotesEngine::updateSourceEvent(const QString &name)
 {
     if (m_noteMetaData.contains(name)) {
-        setData(name, "documentName", m_noteMetaData.value(name).documentName);
         setData(name, "fileName", m_noteMetaData.value(name).fileName);
+        setData(name, "documentName", m_noteMetaData.value(name).documentName);
         setData(name, "modificationTime", m_noteMetaData.value(name).modificationTime.dateTime());
         return true;
     } else {
