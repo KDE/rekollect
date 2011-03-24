@@ -82,20 +82,77 @@ Item {
             height: 20
             width: parent.width
 
-            MouseArea {
+            PlasmaWidgets.Frame {
+                id: itemFrame
                 anchors.fill: parent
+                frameShadow: PlasmaWidgets.Frame.Plain
+            }
+
+            MouseArea {
+                id: mouseArea
+                anchors.fill: parent
+                hoverEnabled: true
                 onClicked: {
                     plasmoid.runApplication("rekollect", [fileName]);
+                }
+                onPressed: {
+                    noteItem.state = "sunken";
+                }
+                onReleased: {
+                    noteItem.state = "raised";
+                }
+                onEntered: {
+                    noteItem.state = "raised";
+                }
+                onExited: {
+                    noteItem.state = "plain";
                 }
             }
 
             Text {
                 id: documentNameText
                 text: fileName
-                anchors.fill: parent
-                color: "blue"
-                font.underline: true
+                anchors.fill: itemFrame
+                anchors.margins: 4
             }
+
+            states: [
+                State {
+                    id: raised
+                    name: "raised"
+                    PropertyChanges {
+                        target: itemFrame
+                        frameShadow: PlasmaWidgets.Frame.Raised
+                    }
+                },
+                State {
+                    id: sunken
+                    name: "sunken"
+                    PropertyChanges {
+                        target: itemFrame
+                        frameShadow: PlasmaWidgets.Frame.Sunken
+                    }
+                },
+                State {
+                    id: plain
+                    name: "plain"
+                    PropertyChanges {
+                        target: itemFrame
+                        frameShadow: PlasmaWidgets.Frame.Plain
+                    }
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    PropertyAnimation {
+                        property: "frameShadow"
+                        duration: 50
+                        easing.type: Easing.InOutQuad
+
+                    }
+                }
+            ]
         }
     }
 }
