@@ -82,7 +82,9 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                onClicked: { print(fileName) }
+                onClicked: {
+                    plasmoid.runApplication("rekollect", [fileName]);
+                }
             }
 
             Text {
