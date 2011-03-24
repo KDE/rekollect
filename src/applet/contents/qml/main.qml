@@ -45,7 +45,9 @@ Item {
 
     PlasmaWidgets.Label {
         id:helloLabel
-        text: "Hello World!"
+        text: "Notes"
+        font.bold: true
+        font.underline: true
     }
 
     ListView {
