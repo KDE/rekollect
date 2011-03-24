@@ -9,13 +9,11 @@ Item {
     anchors.fill: parent
 
     PlasmaCore.DataSource {
-        id: rekollectNotesEngineSource
+        id: dataSource
         engine: "rekollectnotes"
         interval: 0
         connectedSources: sources
 
-        onDataChanged: {
-        }
         onSourceAdded: {
             connectSource(source)
         }
@@ -37,19 +35,42 @@ Item {
         clip: true
         width: parent.width
 
-        model: PlasmaCore.DataModel {
-            dataSource: rekollectNotesEngineSource
+        Component.onCompleted: {
+            print("Test");
+            for (mykey in dataSource.data["/home/h1jej01/.kde/share/apps/rekollect/notesdev/newval"]) {
+                print("Key: " + mykey);
+            }
         }
+
+        PlasmaCore.DataModel {
+            id: model
+            dataSource: dataSource
+        }
+
+        PlasmaCore.SortFilterModel {
+            id: sortModel
+            sourceModel: model
+            sortRole: "fileName"
+            sortOrder: Qt.AscendingOrder
+        }
+        model: sortModel
 
         delegate: Item {
             id: noteItem
             height: 20
             width: parent.width
 
+            MouseArea {
+                anchors.fill: parent
+                onClicked: { print(fileName) }
+            }
+
             Text {
                 id: documentNameText
-                text: documentname
+                text: fileName
                 anchors.fill: parent
+                color: "blue"
+                font.underline: true
             }
         }
     }
