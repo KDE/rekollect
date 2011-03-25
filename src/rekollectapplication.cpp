@@ -23,8 +23,11 @@
 #include "notebrowserwindow.h"
 #include "settings.h"
 
+#include <QtCore/QFileInfo>
+
 #include <KStandardDirs>
 #include <KCmdLineArgs>
+
 
 RekollectApplication::RekollectApplication()
     : m_noteBrowserWindow(0)
@@ -73,7 +76,13 @@ int RekollectApplication::newInstance()
             noteFileName = noteFileName.section("/", -1);
             fullFilePath = KStandardDirs::locateLocal("app_notes", noteFileName);
         }
-        m_noteBrowserWindow->openNote(fullFilePath);
+
+        QFileInfo info(fullFilePath);
+        if (info.exists() && info.isFile() && info.isReadable()) {
+            m_noteBrowserWindow->openNote(fullFilePath);
+        } else {
+            m_noteBrowserWindow->showBrowserWindow();
+        }
     }
 
     return 0;
