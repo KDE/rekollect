@@ -93,7 +93,7 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 onClicked: {
-                    plasmoid.runApplication("rekollect", [fileName]);
+                    plasmoid.runCommand("rekollect", [fileName]);
                 }
                 onPressed: {
                     noteItem.state = "sunken";
