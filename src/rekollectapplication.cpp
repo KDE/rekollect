@@ -63,7 +63,15 @@ int RekollectApplication::newInstance()
         }
         m_noteBrowserWindow->showBrowserWindow();
     } else {
-        QString fullFilePath = KStandardDirs::locateLocal("app_notes", args->arg(0));
+        QString fullFilePath;
+        QString noteFileName = args->arg(0);
+        if (noteFileName.startsWith("/")) {
+            fullFilePath = noteFileName;
+        } else {
+            noteFileName = noteFileName.section("/", -1);
+            fullFilePath = KStandardDirs::locateLocal("app_notes", noteFileName);
+        }
+        kDebug() << fullFilePath;
         m_noteBrowserWindow->openNote(fullFilePath);
     }
 
