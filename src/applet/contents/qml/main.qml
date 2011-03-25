@@ -45,7 +45,7 @@ Item {
 
     PlasmaWidgets.Label {
         id:helloLabel
-        text: "Notes"
+        text: i18nc("@title:window", "Notes")
         font.bold: true
         font.underline: true
     }
@@ -90,14 +90,14 @@ Item {
     TextCommand {
         id: newNote
         anchors.bottom: browseNotes.top
-        label: "Create new note"
+        label: i18nc("@action:button Open a newly created note", "Create new note")
         commandArg: "--new"
     }
 
     TextCommand {
         id: browseNotes
         anchors.bottom: parent.bottom
-        label: "Browse Notes"
+        label: i18nc("@action:button Open the note browser", "Browse Notes")
         commandArg: "--browse"
     }
 }
