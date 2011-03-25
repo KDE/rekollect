@@ -52,6 +52,9 @@ public:
 
 public slots:
     void toggleBrowserWindow();
+    void showBrowserWindow();
+    void openNote(const QString &fileName);
+    QString createNewNote(const QString &newNoteName = QString());
 
 signals:
     void itemActivated(const QModelIndex &index);
@@ -67,8 +70,6 @@ private:
 
 private slots:
     void openNote(const QModelIndex &index);
-    void openNote(const QString &fileName);
-    QString createNewNote(const QString &newNoteName = QString());
     void linkTriggered(const QString &linkUrl, const QString &linkName);
     void editLink(NoteEditor *editor);
     void showPreferences();

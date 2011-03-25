@@ -24,6 +24,7 @@
 #include "settings.h"
 
 #include <KStandardDirs>
+#include <KCmdLineArgs>
 
 RekollectApplication::RekollectApplication()
     : m_noteBrowserWindow(0)
@@ -36,7 +37,9 @@ RekollectApplication::~RekollectApplication()
 
 int RekollectApplication::newInstance()
 {
+    bool firstStart = false;
     if (!m_noteBrowserWindow) {
+        firstStart = true;
         // Add a directory to the resources for saving notes
         #ifndef DEBUG
         KGlobal::dirs()->addResourceType("app_notes", "appdata", "notes");
@@ -45,14 +48,24 @@ int RekollectApplication::newInstance()
         #endif
 
         m_noteBrowserWindow = new NoteBrowserWindow;
+    }
 
-        if (!Settings::startHidden()) {
-            m_noteBrowserWindow->toggleBrowserWindow();
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+
+    if (args->isSet("new")) {
+        m_noteBrowserWindow->createNewNote();
+        return 0;
+    }
+
+    if (args->count() == 0) {
+        if (firstStart && Settings::startHidden()) {
+            return 0;
         }
+        m_noteBrowserWindow->showBrowserWindow();
+    } else {
+        QString fullFilePath = KStandardDirs::locateLocal("app_notes", args->arg(0));
+        m_noteBrowserWindow->openNote(fullFilePath);
     }
-    else
-    {
-        m_noteBrowserWindow->toggleBrowserWindow();
-    }
+
     return 0;
 }

@@ -40,6 +40,12 @@ int main(int argc, char **argv)
     about.addAuthor(ki18n("Jason Jackson"), KLocalizedString(), "jacksonje@gmail.com");
     KCmdLineArgs::init(argc, argv, &about);
 
+    KCmdLineOptions options;
+    options.add("n").add("new", ki18n("Open a window with a newly created note"));
+    options.add("+[file]", ki18n("Display the requested note"));
+    KCmdLineArgs::addCmdLineOptions(options);
+    KUniqueApplication::addCmdLineOptions();
+
     if (!RekollectApplication::start()) {
         return 0;
     }

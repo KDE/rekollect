@@ -75,11 +75,41 @@ void NoteBrowserWindow::toggleBrowserWindow()
     if (isVisible()) {
         close();
     } else {
-        KWindowSystem::unminimizeWindow(winId());
-        show();
-        KWindowSystem::raiseWindow(winId());
-        KWindowSystem::forceActiveWindow(winId());
+        showBrowserWindow();
     }
+}
+
+void NoteBrowserWindow::showBrowserWindow()
+{
+    KWindowSystem::unminimizeWindow(winId());
+    show();
+    KWindowSystem::raiseWindow(winId());
+    KWindowSystem::forceActiveWindow(winId());
+}
+
+void NoteBrowserWindow::openNote(const QString &fileName)
+{
+    if (m_windowCollection->windowExists(fileName)) {
+        m_windowCollection->showWindow(fileName);
+    } else {
+        Note *note = NoteFactory::openExistingNote(fileName);
+        NoteWindow *window = new NoteWindow(note);
+        m_windowCollection->addWindow(note->fileName(), window);
+        connectWindowSignals(window);
+        window->show();
+    }
+}
+
+QString NoteBrowserWindow::createNewNote(const QString &newNoteName)
+{
+    Note *note = NoteFactory::createNewNote(newNoteName);
+    m_noteCollection->addNote(note);
+    NoteWindow *window = new NoteWindow(note);
+    m_windowCollection->addWindow(note->fileName(), window);
+    connectWindowSignals(window);
+    window->saveNote();
+    window->show();
+    return note->fileName();
 }
 
 void NoteBrowserWindow::closeEvent(QCloseEvent *event)
@@ -176,31 +206,6 @@ void NoteBrowserWindow::openNote(const QModelIndex &index)
     QModelIndex realIndex = m_sortableProxyModel->mapToSource(index);
     QString fileName = m_noteCollection->fileNameAt(realIndex);
     openNote(fileName);
-}
-
-void NoteBrowserWindow::openNote(const QString &fileName)
-{
-    if (m_windowCollection->windowExists(fileName)) {
-        m_windowCollection->showWindow(fileName);
-    } else {
-        Note *note = NoteFactory::openExistingNote(fileName);
-        NoteWindow *window = new NoteWindow(note);
-        m_windowCollection->addWindow(note->fileName(), window);
-        connectWindowSignals(window);
-        window->show();
-    }
-}
-
-QString NoteBrowserWindow::createNewNote(const QString &newNoteName)
-{
-    Note *note = NoteFactory::createNewNote(newNoteName);
-    m_noteCollection->addNote(note);
-    NoteWindow *window = new NoteWindow(note);
-    m_windowCollection->addWindow(note->fileName(), window);
-    connectWindowSignals(window);
-    window->saveNote();
-    window->show();
-    return note->fileName();
 }
 
 void NoteBrowserWindow::linkTriggered(const QString &linkUrl, const QString &linkName)
