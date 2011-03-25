@@ -53,7 +53,8 @@ Item {
     ListView {
         id: noteList
         anchors.top: helloLabel.bottom
-        anchors.bottom: parent.bottom
+        anchors.bottom: newNote.top
+        anchors.bottomMargin: 5
         clip: true
         width: parent.width
 
@@ -75,84 +76,28 @@ Item {
             sortRole: "fileName"
             sortOrder: Qt.AscendingOrder
         }
+
         model: sortModel
 
-        delegate: Item {
+        delegate: TextCommand {
             id: noteItem
-            height: 20
-            width: parent.width
-
-            PlasmaWidgets.Frame {
-                id: itemFrame
-                anchors.fill: parent
-                frameShadow: PlasmaWidgets.Frame.Plain
-            }
-
-            MouseArea {
-                id: mouseArea
-                anchors.fill: parent
-                hoverEnabled: true
-                onClicked: {
-                    plasmoid.runCommand("rekollect", [fileName]);
-                }
-                onPressed: {
-                    noteItem.state = "sunken";
-                }
-                onReleased: {
-                    noteItem.state = "raised";
-                }
-                onEntered: {
-                    noteItem.state = "raised";
-                }
-                onExited: {
-                    noteItem.state = "plain";
-                }
-            }
-
-            Text {
-                id: documentNameText
-                text: fileName
-                anchors.fill: itemFrame
-                anchors.margins: 4
-            }
-
-            states: [
-                State {
-                    id: raised
-                    name: "raised"
-                    PropertyChanges {
-                        target: itemFrame
-                        frameShadow: PlasmaWidgets.Frame.Raised
-                    }
-                },
-                State {
-                    id: sunken
-                    name: "sunken"
-                    PropertyChanges {
-                        target: itemFrame
-                        frameShadow: PlasmaWidgets.Frame.Sunken
-                    }
-                },
-                State {
-                    id: plain
-                    name: "plain"
-                    PropertyChanges {
-                        target: itemFrame
-                        frameShadow: PlasmaWidgets.Frame.Plain
-                    }
-                }
-            ]
-
-            transitions: [
-                Transition {
-                    PropertyAnimation {
-                        property: "frameShadow"
-                        duration: 50
-                        easing.type: Easing.InOutQuad
-
-                    }
-                }
-            ]
+            label: fileName
+            commandArg: fileName
         }
+
+    }
+
+    TextCommand {
+        id: newNote
+        anchors.bottom: browseNotes.top
+        label: "Create new note"
+        commandArg: "--new"
+    }
+
+    TextCommand {
+        id: browseNotes
+        anchors.bottom: parent.bottom
+        label: "Browse Notes"
+        commandArg: "--browse"
     }
 }
