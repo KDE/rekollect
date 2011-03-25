@@ -41,6 +41,7 @@ int main(int argc, char **argv)
     KCmdLineArgs::init(argc, argv, &about);
 
     KCmdLineOptions options;
+    options.add("b").add("browse", ki18n("Open note browser window"));
     options.add("n").add("new", ki18n("Open a window with a newly created note"));
     options.add("+[file]", ki18n("Display the requested note"));
     KCmdLineArgs::addCmdLineOptions(options);

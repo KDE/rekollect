@@ -55,6 +55,8 @@ int RekollectApplication::newInstance()
     if (args->isSet("new")) {
         m_noteBrowserWindow->createNewNote();
         return 0;
+    } else if (args->isSet("browse")) {
+        m_noteBrowserWindow->showBrowserWindow();
     }
 
     if (args->count() == 0) {
