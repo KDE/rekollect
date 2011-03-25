@@ -71,7 +71,6 @@ int RekollectApplication::newInstance()
             noteFileName = noteFileName.section("/", -1);
             fullFilePath = KStandardDirs::locateLocal("app_notes", noteFileName);
         }
-        kDebug() << fullFilePath;
         m_noteBrowserWindow->openNote(fullFilePath);
     }
 
