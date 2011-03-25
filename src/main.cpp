@@ -1,6 +1,6 @@
 /*
     Rekollect: A note taking application
-    Copyright (C) 2009, 2010  Jason Jackson <jacksonje@gmail.com>
+    Copyright (C) 2009, 2010, 2011  Jason Jackson <jacksonje@gmail.com>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ int main(int argc, char **argv)
 {
     // Initialize application
     KAboutData about("rekollect", 0, ki18n("Rekollect"), version, ki18n(description),
-                     KAboutData::License_GPL, ki18n("(C) 2010 Jason Jackson"), KLocalizedString(),
+                     KAboutData::License_GPL, ki18n("(C) 2009 - 2011 Jason Jackson"), KLocalizedString(),
                      0, "jacksonje@gmail.com");
     about.addAuthor(ki18n("Jason Jackson"), KLocalizedString(), "jacksonje@gmail.com");
     KCmdLineArgs::init(argc, argv, &about);
