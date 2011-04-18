@@ -73,15 +73,15 @@ Item {
         PlasmaCore.SortFilterModel {
             id: sortModel
             sourceModel: model
-            sortRole: "fileName"
-            sortOrder: Qt.AscendingOrder
+            sortRole: "modificationTime"
+            sortOrder: Qt.DescendingOrder
         }
 
         model: sortModel
 
         delegate: TextCommand {
             id: noteItem
-            label: fileName
+            label: documentName
             commandArg: fileName
         }
 
