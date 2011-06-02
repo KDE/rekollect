@@ -47,6 +47,11 @@ install( FILES rekollect.desktop  DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES rekollect.kcfg  DESTINATION  ${KCFG_INSTALL_DIR} )
 install( FILES rekollectui.rc  DESTINATION  ${DATA_INSTALL_DIR}/rekollect )
 
+########### install plasmoid ############
+
+install ( DIRECTORY applet/ DESTINATION ${DATA_INSTALL_DIR}/plasma/plasmoids/rekollect-notes )
+install ( FILES applet/metadata.desktop DESTINATION ${SERVICES_INSTALL_DIR} RENAME plasma-applet-rekollect-notes.desktop )
+
 add_subdirectory(metadata)
 add_subdirectory(io)
 add_subdirectory(note)
