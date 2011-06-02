@@ -25,7 +25,7 @@ import org.kde.plasma.core 0.1 as PlasmaCore
 Item {
     id: page;
     width: 200
-    height: 200
+    height: 400
     anchors.fill: parent
 
     PlasmaCore.DataSource {
