@@ -28,7 +28,6 @@ class Note;
 class NoteCollection;
 class NoteWindow;
 class WindowCollection;
-class SystemTrayIcon;
 
 namespace Ui {
     class GeneralSettingsWidget;
@@ -66,7 +65,6 @@ protected:
 private:
     void setupWindow();
     void setupActions();
-    void setupTray();
 
 private slots:
     void openNote(const QModelIndex &index);
@@ -89,8 +87,6 @@ private:
 
     KAction *m_newNoteAction;
     KAction *m_globalShowBrowserAction;
-
-    SystemTrayIcon *m_systemTrayIcon;
 
     Ui::GeneralSettingsWidget *ui_generalSettings;
     Ui::DisplaySettingsWidget *ui_displaySettings;

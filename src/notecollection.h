@@ -51,10 +51,6 @@ public slots:
     void documentNameChanged(const QString &fileName, const QString &documentName);
     void documentModified(const QString &fileName, const QDateTime &modificationTime);
 
-signals:
-    void noteAdded(const QString &fileName, const QString &documentName);
-    void noteRemoved(const QString &fileName);
-
 private:
     void initializeHeader();
 

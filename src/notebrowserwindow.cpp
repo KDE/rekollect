@@ -20,7 +20,6 @@
 #include "notebrowserwindow.h"
 #include "notecollection.h"
 #include "windowcollection.h"
-#include "systemtrayicon.h"
 #include "notefactory.h"
 #include "noteeditor.h"
 #include "note.h"
@@ -153,7 +152,6 @@ void NoteBrowserWindow::setupWindow()
     connect(this, SIGNAL(itemActivated(QModelIndex)), SLOT(openNote(QModelIndex)));
     connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)), SLOT(globalSettingsChanged(int)));
     setCentralWidget(m_noteTableView);
-    setupTray();
 }
 
 void NoteBrowserWindow::setupActions()
@@ -177,23 +175,6 @@ void NoteBrowserWindow::setupActions()
 
     toolBar()->setVisible(false);
     setupGUI();
-}
-
-void NoteBrowserWindow::setupTray()
-{
-
-    m_systemTrayIcon = new SystemTrayIcon(this);
-    m_systemTrayIcon->show();
-    for (int i = 0; i < m_noteCollection->rowCount(); ++i)
-    {
-        QString fileName = m_noteCollection->item(i, NoteCollection::FileNameColumn)->text();
-        QString documentName = m_noteCollection->item(i, NoteCollection::DocumentNameColumn)->text();
-        m_systemTrayIcon->addDocumentAction(fileName, documentName);
-    }
-    connect(m_noteCollection, SIGNAL(noteAdded(QString,QString)), m_systemTrayIcon, SLOT(addDocumentAction(QString,QString)));
-    connect(m_noteCollection, SIGNAL(noteRemoved(QString)), m_systemTrayIcon, SLOT(removeDocumentAction(QString)));
-    connect(m_systemTrayIcon, SIGNAL(openNoteRequested(QString)), SLOT(openNote(QString)));
-    connect(m_systemTrayIcon, SIGNAL(createNoteRequested()), SLOT(createNewNote()));
 }
 
 void NoteBrowserWindow::openNote(const QModelIndex &index)
@@ -319,7 +300,6 @@ void NoteBrowserWindow::startDirWatch()
 void NoteBrowserWindow::connectWindowSignals(NoteWindow *window)
 {
     connect(window->editor()->document(), SIGNAL(documentNameChanged(QString,QString)), m_noteCollection, SLOT(documentNameChanged(QString,QString)));
-    connect(window->editor()->document(), SIGNAL(documentNameChanged(QString,QString)), m_systemTrayIcon, SLOT(renameDocumentAction(QString,QString)));
     connect(window, SIGNAL(noteDeleted(QString)), m_noteCollection, SLOT(removeNote(QString)));
     connect(window, SIGNAL(documentModified(QString,QDateTime)), m_noteCollection, SLOT(documentModified(QString,QDateTime)));
     connect(window, SIGNAL(newNoteRequested()), SLOT(createNewNote()));

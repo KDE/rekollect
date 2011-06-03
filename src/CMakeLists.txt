@@ -5,7 +5,7 @@ set(rekollect_SRCS
    datetimeitem.cpp
    negativefilterproxymodel.cpp
    linkeditdialog.cpp
-   systemtrayicon.cpp
+
    notebrowserwindow.cpp
    notecollection.cpp
    note.cpp

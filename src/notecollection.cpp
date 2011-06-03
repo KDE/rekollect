@@ -47,7 +47,6 @@ void NoteCollection::addNote(Note *note)
     QList<QStandardItem *> newRow;
     newRow << documentNameItem << modificationTimeItem << fileNameItem;
     appendRow(newRow);
-    emit noteAdded(note->fileName(), note->documentName());
 }
 
 void NoteCollection::addNote(const MetaData &metaData)
@@ -58,7 +57,6 @@ void NoteCollection::addNote(const MetaData &metaData)
     QList<QStandardItem *> newRow;
     newRow << documentNameItem << modificationTimeItem << fileNameItem;
     appendRow(newRow);
-    emit noteAdded(metaData.fileName, metaData.documentName);
 }
 
 bool NoteCollection::noteExists(const QString& fileName)
@@ -92,7 +90,6 @@ void NoteCollection::removeNote(const QString &fileName)
     if (item != 0) {
         removeRow(item->row());
     }
-    emit noteRemoved(fileName);
 }
 
 void NoteCollection::documentNameChanged(const QString &fileName, const QString &documentName)
