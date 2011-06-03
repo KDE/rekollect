@@ -40,9 +40,7 @@ RekollectApplication::~RekollectApplication()
 
 int RekollectApplication::newInstance()
 {
-    bool firstStart = false;
     if (!m_noteBrowserWindow) {
-        firstStart = true;
         // Add a directory to the resources for saving notes
         #ifndef DEBUG
         KGlobal::dirs()->addResourceType("app_notes", "appdata", "notes");
@@ -63,9 +61,6 @@ int RekollectApplication::newInstance()
     }
 
     if (args->count() == 0) {
-        if (firstStart && Settings::startHidden()) {
-            return 0;
-        }
         m_noteBrowserWindow->showBrowserWindow();
     } else {
         QString fullFilePath;

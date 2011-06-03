@@ -6,12 +6,6 @@
   <kcfgfile name="rekollectrc"/>
   <include>kglobalsettings.h</include>
   <include>qfont.h</include>
-  <group name="General">
-    <entry name="StartHidden" type="Bool">
-	    <label>Hide Note Browser on start</label>
-	    <default>false</default>
-    </entry>
-  </group>
   <group name="Display">
     <entry name="SmallFont" type="Font">
       <label>The font used to display normal sized text.</label>

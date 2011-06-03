@@ -25,7 +25,6 @@
 #include "note.h"
 #include "linkeditdialog.h"
 #include "settings.h"
-#include "ui_settings_general.h"
 #include "ui_settings_display.h"
 
 #include <QtGui/QTableView>
@@ -250,10 +249,6 @@ void NoteBrowserWindow::showPreferences()
     }
 
     KConfigDialog *dialog = new KConfigDialog(this, "settings", Settings::self());
-    QWidget *generalSettingsDlg = new QWidget;
-    ui_generalSettings = new Ui::GeneralSettingsWidget;
-    ui_generalSettings->setupUi(generalSettingsDlg);
-    dialog->addPage(generalSettingsDlg, i18nc("@title:group", "General"), "configure");
     QWidget *displaySettingsDlg = new QWidget;
     ui_displaySettings = new Ui::DisplaySettingsWidget;
     ui_displaySettings->setupUi(displaySettingsDlg);
