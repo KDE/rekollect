@@ -2,6 +2,7 @@
 Name=Rekollect Notes
 Name[es]=Notas de Rekollect
 Name[et]=Rekollecti märkmed
+Name[km]=ចំណាំ Rekollect
 Name[nl]=Rekollect notities
 Name[pt]=Notas do Rekollect
 Name[pt_BR]=Notas do Rekollect
@@ -11,6 +12,7 @@ Name[x-test]=xxRekollect Notesxx
 Comment=Displays a list of notes available in Rekollect
 Comment[es]=Muestra una lista de las notas disponibles en Rekollect
 Comment[et]=Rekollectis kättesaadavate märkmete loendi näitamine
+Comment[km]=បង្ហាញ​បញ្ជី​ចំណាំ​ដែល​មាន​នៅ​ក្នុង Rekollect
 Comment[nl]=Toont een lijst met notities die beschikbaar zijn in Rekollect
 Comment[pt]=Mostra uma lista com as notas disponíveis no Rekollect
 Comment[pt_BR]=Mostra uma lista com as notas disponíveis no Rekollect
