@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Rekollect Notes
+Name[de]=Rekollect-Notizen
 Name[es]=Notas de Rekollect
 Name[et]=Rekollecti märkmed
 Name[km]=ចំណាំ Rekollect
@@ -10,6 +11,7 @@ Name[sv]=Rekollect anteckningar
 Name[uk]=Нотатки Rekollect
 Name[x-test]=xxRekollect Notesxx
 Comment=Displays a list of notes available in Rekollect
+Comment[de]=Zeigt eine Liste der in Rekollect verfügbaren Notizen an
 Comment[es]=Muestra una lista de las notas disponibles en Rekollect
 Comment[et]=Rekollectis kättesaadavate märkmete loendi näitamine
 Comment[km]=បង្ហាញ​បញ្ជី​ចំណាំ​ដែល​មាន​នៅ​ក្នុង Rekollect
