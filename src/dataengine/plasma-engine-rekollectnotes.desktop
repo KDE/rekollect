@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Rekollect Notes Engine
+Name[ca]=Motor de notes del Rekollect
 Name[de]=Rekollect-Notizen-Treiber
 Name[es]=Motor de notas de Rekollect
 Name[et]=Rekollecti märkmete mootor
@@ -20,6 +21,7 @@ Name[tr]=Rekollect Not Motoru
 Name[uk]=Рушій роботи з нотатками Rekollect
 Name[x-test]=xxRekollect Notes Enginexx
 Comment=Provides the metadata for all rekollect notes
+Comment[ca]=Proporciona les metadades per a totes les notes del Rekollect
 Comment[de]=Stellt die Metadaten aller Rekollect-Notizen bereit
 Comment[es]=Proporciona metadatos para todas las notas de Rekollect
 Comment[et]=Metaandmete tagamine kõigile Rekollecti märkmetele
